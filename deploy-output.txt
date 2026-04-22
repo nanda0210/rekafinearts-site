@@ -1,0 +1,2452 @@
+
+> rekafinearts-site@0.0.0 deploy:cpanel
+> node scripts/deploy-cpanel.mjs
+
+◇ injected env (4) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Building project...
+
+> rekafinearts-site@0.0.0 build
+> vite build
+
+vite v8.0.5 building client environment for production...
+[2Ktransforming...✓ 26 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   1.34 kB │ gzip:  0.61 kB
+dist/assets/index-BJHIj9YW.css   23.53 kB │ gzip:  5.24 kB
+dist/assets/index-Bt-bKRE4.js   267.15 kB │ gzip: 81.44 kB
+
+✓ built in 136ms
+Connected to 206.168.149.58:21 (No encryption)
+< 220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 2 of 50 allowed.
+220-Local time is now 18:52. Server port: 21.
+220-This is a private system - No anonymous login
+220-IPv6 connections are also welcome on this server.
+220 You will be disconnected after 15 minutes of inactivity.
+
+> OPTS UTF8 ON
+< 504 Unknown command
+
+Login security: No encryption
+> USER rekagallery
+< 331 User rekagallery OK. Password required
+
+> PASS ###
+< 230 OK. Current restricted directory is /
+
+> FEAT
+< 211-Extensions supported:
+ UTF8
+ EPRT
+ IDLE
+ MDTM
+ SIZE
+ MFMT
+ REST STREAM
+ MLST type*;size*;sizd*;modify*;UNIX.mode*;UNIX.uid*;UNIX.gid*;unique*;
+ MLSD
+ PRET
+ AUTH TLS
+ PBSZ
+ PROT
+ TVFS
+ ESTA
+ PASV
+ EPSV
+ ESTP
+211 End.
+
+> TYPE I
+< 200 TYPE is now 8-bit binary
+
+> STRU F
+< 200 F OK
+
+> OPTS UTF8 ON
+< 504 Unknown command
+
+> OPTS MLST type;size;modify;unique;unix.mode;unix.owner;unix.group;unix.ownername;unix.groupname;
+< 200  MLST OPTS type;size;sizd;modify;UNIX.mode;UNIX.uid;UNIX.gid;unique;
+
+> CWD /
+< 250 OK. Current directory is /
+
+> MKD public_html
+< 550 Can't create directory: File exists
+
+> CWD public_html
+< 250 OK. Current directory is /public_html
+
+> PWD
+< 257 "/public_html" is your current location
+
+> SIZE assets
+< 550 I can only retrieve regular files
+
+> CWD assets
+< 250 OK. Current directory is /public_html/assets
+
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> PWD
+< 257 "/public_html" is your current location
+
+> CWD assets
+< 250 OK. Current directory is /public_html/assets
+
+> PWD
+< 257 "/public_html/assets" is your current location
+
+Trying to find optimal transfer strategy...
+> EPSV
+< 229 Extended Passive mode OK (|||63726|)
+
+Optimal transfer strategy found.
+> MLSD
+< 150 Accepted data connection
+226 4 matches total
+
+Downloading from 206.168.149.58:63726 (No encryption)
+type=cdir;sizd=4096;modify=20260408014952;UNIX.mode=0755;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cc8; .
+type=pdir;sizd=4096;modify=20260408015013;UNIX.mode=0750;UNIX.uid=2153;UNIX.gid=65534;unique=fd00gc452ad7; ..
+type=file;size=23537;modify=20260408014952;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cca; index-BJHIj9YW.css
+type=file;size=267159;modify=20260408014952;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452ccb; index-Bt-bKRE4.js
+
+> DELE index-BJHIj9YW.css
+< 250 Deleted index-BJHIj9YW.css
+
+> DELE index-Bt-bKRE4.js
+< 250 Deleted index-Bt-bKRE4.js
+
+> CDUP
+< 250 OK. Current directory is /public_html
+
+> RMD /public_html/assets
+< 250 The directory was successfully removed
+
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+Deleted directory: assets
+> PWD
+< 257 "/public_html" is your current location
+
+> SIZE index.html
+< 213 1348
+
+> DELE index.html
+< 250 Deleted index.html
+
+Deleted file: index.html
+> PWD
+< 257 "/public_html" is your current location
+
+> SIZE favicon.svg
+< 213 9522
+
+> DELE favicon.svg
+< 250 Deleted favicon.svg
+
+Deleted file: favicon.svg
+> PWD
+< 257 "/public_html" is your current location
+
+> SIZE icons.svg
+< 213 5031
+
+> DELE icons.svg
+< 250 Deleted icons.svg
+
+Deleted file: icons.svg
+> PWD
+< 257 "/public_html" is your current location
+
+> SIZE images
+< 550 I can only retrieve regular files
+
+> CWD images
+< 250 OK. Current directory is /public_html/images
+
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> PWD
+< 257 "/public_html" is your current location
+
+> CWD images
+< 250 OK. Current directory is /public_html/images
+
+> PWD
+< 257 "/public_html/images" is your current location
+
+> EPSV
+< 229 Extended Passive mode OK (|||58287|)
+
+> MLSD
+< 150 Accepted data connection
+226 8 matches total
+
+Downloading from 206.168.149.58:58287 (No encryption)
+type=dir;sizd=4096;modify=20260408015002;UNIX.mode=0755;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d09; beginners
+type=dir;sizd=4096;modify=20260408015000;UNIX.mode=0755;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cd1; advanced
+type=cdir;sizd=4096;modify=20260408015008;UNIX.mode=0755;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cd0; .
+type=dir;sizd=4096;modify=20260408015013;UNIX.mode=0755;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d31; kidsart
+type=dir;sizd=4096;modify=20260408015005;UNIX.mode=0755;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d14; gallery
+type=pdir;sizd=4096;modify=20260408015242;UNIX.mode=0750;UNIX.uid=2153;UNIX.gid=65534;unique=fd00gc452ad7; ..
+type=dir;sizd=4096;modify=20260408015008;UNIX.mode=0755;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d23; intermediate
+type=dir;sizd=4096;modify=20260408015005;UNIX.mode=0755;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d20; hero-open
+
+> CWD beginners
+< 250 OK. Current directory is /public_html/images/beginners
+
+> EPSV
+< 229 Extended Passive mode OK (|||63558|)
+
+> MLSD
+< 150 Accepted data connection
+226 12 matches total
+
+Downloading from 206.168.149.58:63558 (No encryption)
+type=file;size=280828;modify=20260408015002;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d11; B008.JPG
+type=file;size=601416;modify=20260408015001;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d0c; B003.JPG
+type=file;size=1035;modify=20260408015000;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d0a; B001.txt
+type=file;size=225826;modify=20260408015002;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d12; B009.jpg
+type=file;size=433921;modify=20260408015001;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d0f; B006.JPG
+type=file;size=276355;modify=20260408015002;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d10; B007.JPG
+type=cdir;sizd=4096;modify=20260408015002;UNIX.mode=0755;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d09; .
+type=file;size=433860;modify=20260408015001;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d0d; B004.JPG
+type=file;size=150600;modify=20260408015000;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d0b; B002.JPG
+type=file;size=234718;modify=20260408015001;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d0e; B005.JPG
+type=pdir;sizd=4096;modify=20260408015008;UNIX.mode=0755;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cd0; ..
+type=file;size=162579;modify=20260408015002;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d13; B010.jpg
+
+> DELE B008.JPG
+< 250 Deleted B008.JPG
+
+> DELE B003.JPG
+< 250 Deleted B003.JPG
+
+> DELE B001.txt
+< 250 Deleted B001.txt
+
+> DELE B009.jpg
+< 250 Deleted B009.jpg
+
+> DELE B006.JPG
+< 250 Deleted B006.JPG
+
+> DELE B007.JPG
+< 250 Deleted B007.JPG
+
+> DELE B004.JPG
+< 250 Deleted B004.JPG
+
+> DELE B002.JPG
+< 250 Deleted B002.JPG
+
+> DELE B005.JPG
+< 250 Deleted B005.JPG
+
+> DELE B010.jpg
+< 250 Deleted B010.jpg
+
+> CDUP
+< 250 OK. Current directory is /public_html/images
+
+> RMD beginners
+< 250 The directory was successfully removed
+
+> CWD advanced
+< 250 OK. Current directory is /public_html/images/advanced
+
+> EPSV
+< 229 Extended Passive mode OK (|||50418|)
+
+> MLSD
+< 150 Accepted data connection
+226 43 matches total
+
+Downloading from 206.168.149.58:50418 (No encryption)
+type=file;size=908263;modify=20260408014953;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cd5; A004.JPG
+type=file;size=118793;modify=20260408015000;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d06; A039.jpg
+type=file;size=131196;modify=20260408014959;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d00; A033.jpg
+type=file;size=818523;modify=20260408014955;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452ced; A014.JPG
+type=file;size=170082;modify=20260408014959;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d02; A035.jpg
+type=file;size=537373;modify=20260408014957;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cf6; A023.jpg
+type=file;size=780979;modify=20260408014957;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cf7; A024.jpg
+type=file;size=26165;modify=20260408014956;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cf4; A021.jpg
+type=file;size=151010;modify=20260408014954;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452ce3; A009.jpg
+type=file;size=118285;modify=20260408014958;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cfd; A030.jpg
+type=file;size=143777;modify=20260408015000;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d07; A040.jpg
+type=file;size=142334;modify=20260408014958;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cfc; A029.jpg
+type=file;size=4831;modify=20260408014953;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cd8; A007.txt
+type=cdir;sizd=4096;modify=20260408015000;UNIX.mode=0755;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cd1; .
+type=file;size=668323;modify=20260408014953;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cd6; A005.JPG
+type=file;size=129832;modify=20260408014958;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cfe; A031.jpg
+type=file;size=162941;modify=20260408014959;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d04; A037.jpg
+type=file;size=76531;modify=20260408014953;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cd7; A006.jpg
+type=file;size=158195;modify=20260408014959;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d05; A038.jpg
+type=file;size=115662;modify=20260408014956;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cf0; A017.jpg
+type=file;size=37687;modify=20260408014956;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cf3; A020.jpg
+type=file;size=216075;modify=20260408014957;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cfa; A027.jpg
+type=file;size=16030;modify=20260408014956;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cf5; A022.jpg
+type=file;size=18526;modify=20260408014956;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cf1; A018.jpg
+type=file;size=353700;modify=20260408014954;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452ce9; A010.JPG
+type=file;size=44758;modify=20260408014955;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452ceb; A012.jpg
+type=file;size=93073;modify=20260408014957;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cf8; A025.jpg
+type=file;size=74371;modify=20260408014955;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cef; A016.jpg
+type=file;size=26022;modify=20260408014952;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cd3; A002.jpg
+type=pdir;sizd=4096;modify=20260408015243;UNIX.mode=0755;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cd0; ..
+type=file;size=38557;modify=20260408014952;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cd2; A001.jpg
+type=file;size=42141;modify=20260408014953;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cd4; A003.jpg
+type=file;size=109192;modify=20260408014958;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cff; A032.jpg
+type=file;size=231700;modify=20260408014957;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cf9; A026.jpg
+type=file;size=227872;modify=20260408014955;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cec; A013.JPG
+type=file;size=728555;modify=20260408014954;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cea; A011.JPG
+type=file;size=141767;modify=20260408014955;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cee; A015.jpg
+type=file;size=97550;modify=20260408015000;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d08; A041.jpg
+type=file;size=254211;modify=20260408014958;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cfb; A028.jpg
+type=file;size=142199;modify=20260408014959;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d03; A036.jpg
+type=file;size=21564;modify=20260408014956;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cf2; A019.jpg
+type=file;size=186592;modify=20260408014959;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d01; A034.jpg
+type=file;size=329920;modify=20260408014954;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cd9; A008.JPG
+
+> DELE A004.JPG
+< 250 Deleted A004.JPG
+
+> DELE A039.jpg
+< 250 Deleted A039.jpg
+
+> DELE A033.jpg
+< 250 Deleted A033.jpg
+
+> DELE A014.JPG
+< 250 Deleted A014.JPG
+
+> DELE A035.jpg
+< 250 Deleted A035.jpg
+
+> DELE A023.jpg
+< 250 Deleted A023.jpg
+
+> DELE A024.jpg
+< 250 Deleted A024.jpg
+
+> DELE A021.jpg
+< 250 Deleted A021.jpg
+
+> DELE A009.jpg
+< 250 Deleted A009.jpg
+
+> DELE A030.jpg
+< 250 Deleted A030.jpg
+
+> DELE A040.jpg
+< 250 Deleted A040.jpg
+
+> DELE A029.jpg
+< 250 Deleted A029.jpg
+
+> DELE A007.txt
+< 250 Deleted A007.txt
+
+> DELE A005.JPG
+< 250 Deleted A005.JPG
+
+> DELE A031.jpg
+< 250 Deleted A031.jpg
+
+> DELE A037.jpg
+< 250 Deleted A037.jpg
+
+> DELE A006.jpg
+< 250 Deleted A006.jpg
+
+> DELE A038.jpg
+< 250 Deleted A038.jpg
+
+> DELE A017.jpg
+< 250 Deleted A017.jpg
+
+> DELE A020.jpg
+< 250 Deleted A020.jpg
+
+> DELE A027.jpg
+< 250 Deleted A027.jpg
+
+> DELE A022.jpg
+< 250 Deleted A022.jpg
+
+> DELE A018.jpg
+< 250 Deleted A018.jpg
+
+> DELE A010.JPG
+< 250 Deleted A010.JPG
+
+> DELE A012.jpg
+< 250 Deleted A012.jpg
+
+> DELE A025.jpg
+< 250 Deleted A025.jpg
+
+> DELE A016.jpg
+< 250 Deleted A016.jpg
+
+> DELE A002.jpg
+< 250 Deleted A002.jpg
+
+> DELE A001.jpg
+< 250 Deleted A001.jpg
+
+> DELE A003.jpg
+< 250 Deleted A003.jpg
+
+> DELE A032.jpg
+< 250 Deleted A032.jpg
+
+> DELE A026.jpg
+< 250 Deleted A026.jpg
+
+> DELE A013.JPG
+< 250 Deleted A013.JPG
+
+> DELE A011.JPG
+< 250 Deleted A011.JPG
+
+> DELE A015.jpg
+< 250 Deleted A015.jpg
+
+> DELE A041.jpg
+< 250 Deleted A041.jpg
+
+> DELE A028.jpg
+< 250 Deleted A028.jpg
+
+> DELE A036.jpg
+< 250 Deleted A036.jpg
+
+> DELE A019.jpg
+< 250 Deleted A019.jpg
+
+> DELE A034.jpg
+< 250 Deleted A034.jpg
+
+> DELE A008.JPG
+< 250 Deleted A008.JPG
+
+> CDUP
+< 250 OK. Current directory is /public_html/images
+
+> RMD advanced
+< 250 The directory was successfully removed
+
+> CWD kidsart
+< 250 OK. Current directory is /public_html/images/kidsart
+
+> EPSV
+< 229 Extended Passive mode OK (|||64341|)
+
+> MLSD
+< 150 Accepted data connection
+226 31 matches total
+
+Downloading from 206.168.149.58:64341 (No encryption)
+type=file;size=31876;modify=20260408015010;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d3d; K012.jpg
+type=file;size=14587;modify=20260408015012;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d49; K023.jpg
+type=file;size=14989;modify=20260408015009;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d37; K006.jpg
+type=file;size=390578;modify=20260408015013;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc454457; K028.JPG
+type=file;size=38787;modify=20260408015011;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d44; K019.jpg
+type=file;size=46283;modify=20260408015012;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc45430a; K027.jpg
+type=file;size=56432;modify=20260408015011;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d41; K016.jpg
+type=file;size=40572;modify=20260408015009;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d35; K004.jpg
+type=file;size=21128;modify=20260408015009;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d33; K002.jpg
+type=cdir;sizd=4096;modify=20260408015013;UNIX.mode=0755;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d31; .
+type=file;size=41615;modify=20260408015010;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d3a; K009.jpg
+type=file;size=34768;modify=20260408015010;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d3c; K011.jpg
+type=file;size=60644;modify=20260408015012;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc4530e5; K026.jpg
+type=file;size=28485;modify=20260408015009;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d36; K005.jpg
+type=file;size=42873;modify=20260408015009;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d34; K003.jpg
+type=file;size=26212;modify=20260408015011;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d46; K021.jpg
+type=file;size=15944;modify=20260408015009;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d39; K008.jpg
+type=pdir;sizd=4096;modify=20260408015244;UNIX.mode=0755;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cd0; ..
+type=file;size=32662;modify=20260408015011;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d45; K020.jpg
+type=file;size=84734;modify=20260408015009;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d38; K007.jpg
+type=file;size=40103;modify=20260408015011;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d40; K015.jpg
+type=file;size=11654;modify=20260408015012;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d4c; K025.jpg
+type=file;size=66479;modify=20260408015011;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d43; K018.jpg
+type=file;size=48966;modify=20260408015010;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d3e; K013.jpg
+type=file;size=3511;modify=20260408015013;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc45446a; K029.txt
+type=file;size=11588;modify=20260408015010;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d3f; K014.jpg
+type=file;size=59716;modify=20260408015012;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d47; K022.jpg
+type=file;size=32864;modify=20260408015012;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d4b; K024.jpg
+type=file;size=36300;modify=20260408015011;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d42; K017.jpg
+type=file;size=44157;modify=20260408015010;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d3b; K010.jpg
+type=file;size=15449;modify=20260408015008;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d32; K001.jpg
+
+> DELE K012.jpg
+< 250 Deleted K012.jpg
+
+> DELE K023.jpg
+< 250 Deleted K023.jpg
+
+> DELE K006.jpg
+< 250 Deleted K006.jpg
+
+> DELE K028.JPG
+< 250 Deleted K028.JPG
+
+> DELE K019.jpg
+< 250 Deleted K019.jpg
+
+> DELE K027.jpg
+< 250 Deleted K027.jpg
+
+> DELE K016.jpg
+< 250 Deleted K016.jpg
+
+> DELE K004.jpg
+< 250 Deleted K004.jpg
+
+> DELE K002.jpg
+< 250 Deleted K002.jpg
+
+> DELE K009.jpg
+< 250 Deleted K009.jpg
+
+> DELE K011.jpg
+< 250 Deleted K011.jpg
+
+> DELE K026.jpg
+< 250 Deleted K026.jpg
+
+> DELE K005.jpg
+< 250 Deleted K005.jpg
+
+> DELE K003.jpg
+< 250 Deleted K003.jpg
+
+> DELE K021.jpg
+< 250 Deleted K021.jpg
+
+> DELE K008.jpg
+< 250 Deleted K008.jpg
+
+> DELE K020.jpg
+< 250 Deleted K020.jpg
+
+> DELE K007.jpg
+< 250 Deleted K007.jpg
+
+> DELE K015.jpg
+< 250 Deleted K015.jpg
+
+> DELE K025.jpg
+< 250 Deleted K025.jpg
+
+> DELE K018.jpg
+< 250 Deleted K018.jpg
+
+> DELE K013.jpg
+< 250 Deleted K013.jpg
+
+> DELE K029.txt
+< 250 Deleted K029.txt
+
+> DELE K014.jpg
+< 250 Deleted K014.jpg
+
+> DELE K022.jpg
+< 250 Deleted K022.jpg
+
+> DELE K024.jpg
+< 250 Deleted K024.jpg
+
+> DELE K017.jpg
+< 250 Deleted K017.jpg
+
+> DELE K010.jpg
+< 250 Deleted K010.jpg
+
+> DELE K001.jpg
+< 250 Deleted K001.jpg
+
+> CDUP
+< 250 OK. Current directory is /public_html/images
+
+> RMD kidsart
+< 250 The directory was successfully removed
+
+> CWD gallery
+< 250 OK. Current directory is /public_html/images/gallery
+
+> EPSV
+< 229 Extended Passive mode OK (|||49391|)
+
+> MLSD
+< 150 Accepted data connection
+226 13 matches total
+
+Downloading from 206.168.149.58:49391 (No encryption)
+type=file;size=115662;modify=20260408015004;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d1b; G007.jpg
+type=file;size=818523;modify=20260408015004;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d1a; G006.JPG
+type=file;size=353700;modify=20260408015003;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d18; G004.JPG
+type=file;size=227872;modify=20260408015004;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d19; G005.JPG
+type=cdir;sizd=4096;modify=20260408015005;UNIX.mode=0755;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d14; .
+type=file;size=170082;modify=20260408015005;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d1f; G011.jpg
+type=file;size=329920;modify=20260408015003;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d17; G003.JPG
+type=pdir;sizd=4096;modify=20260408015244;UNIX.mode=0755;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cd0; ..
+type=file;size=37687;modify=20260408015004;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d1d; G009.jpg
+type=file;size=18526;modify=20260408015004;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d1c; G008.jpg
+type=file;size=908263;modify=20260408015003;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d15; G001.JPG
+type=file;size=668323;modify=20260408015003;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d16; G002.JPG
+type=file;size=231700;modify=20260408015005;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d1e; G010.jpg
+
+> DELE G007.jpg
+< 250 Deleted G007.jpg
+
+> DELE G006.JPG
+< 250 Deleted G006.JPG
+
+> DELE G004.JPG
+< 250 Deleted G004.JPG
+
+> DELE G005.JPG
+< 250 Deleted G005.JPG
+
+> DELE G011.jpg
+< 250 Deleted G011.jpg
+
+> DELE G003.JPG
+< 250 Deleted G003.JPG
+
+> DELE G009.jpg
+< 250 Deleted G009.jpg
+
+> DELE G008.jpg
+< 250 Deleted G008.jpg
+
+> DELE G001.JPG
+< 250 Deleted G001.JPG
+
+> DELE G002.JPG
+< 250 Deleted G002.JPG
+
+> DELE G010.jpg
+< 250 Deleted G010.jpg
+
+> CDUP
+< 250 OK. Current directory is /public_html/images
+
+> RMD gallery
+< 250 The directory was successfully removed
+
+> CWD intermediate
+< 250 OK. Current directory is /public_html/images/intermediate
+
+> EPSV
+< 229 Extended Passive mode OK (|||63411|)
+
+> MLSD
+< 150 Accepted data connection
+226 15 matches total
+
+Downloading from 206.168.149.58:63411 (No encryption)
+type=file;size=618752;modify=20260408015007;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d2b; I008.JPG
+type=cdir;sizd=4096;modify=20260408015008;UNIX.mode=0755;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d23; .
+type=file;size=43646;modify=20260408015006;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d26; I003.jpg
+type=file;size=40933;modify=20260408015007;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d29; I006.jpg
+type=file;size=250789;modify=20260408015007;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d2a; I007.JPG
+type=file;size=391518;modify=20260408015007;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d2c; I009.JPG
+type=file;size=30159;modify=20260408015006;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d25; I002.jpg
+type=file;size=42395;modify=20260408015006;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d27; I004.jpg
+type=file;size=1427;modify=20260408015008;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d30; I013.txt
+type=pdir;sizd=4096;modify=20260408015245;UNIX.mode=0755;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cd0; ..
+type=file;size=16087;modify=20260408015006;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d24; I001.jpg
+type=file;size=29131;modify=20260408015006;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d28; I005.jpg
+type=file;size=579044;modify=20260408015008;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d2e; I011.JPG
+type=file;size=931285;modify=20260408015008;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d2d; I010.JPG
+type=file;size=456552;modify=20260408015008;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d2f; I012.JPG
+
+> DELE I008.JPG
+< 250 Deleted I008.JPG
+
+> DELE I003.jpg
+< 250 Deleted I003.jpg
+
+> DELE I006.jpg
+< 250 Deleted I006.jpg
+
+> DELE I007.JPG
+< 250 Deleted I007.JPG
+
+> DELE I009.JPG
+< 250 Deleted I009.JPG
+
+> DELE I002.jpg
+< 250 Deleted I002.jpg
+
+> DELE I004.jpg
+< 250 Deleted I004.jpg
+
+> DELE I013.txt
+< 250 Deleted I013.txt
+
+> DELE I001.jpg
+< 250 Deleted I001.jpg
+
+> DELE I005.jpg
+< 250 Deleted I005.jpg
+
+> DELE I011.JPG
+< 250 Deleted I011.JPG
+
+> DELE I010.JPG
+< 250 Deleted I010.JPG
+
+> DELE I012.JPG
+< 250 Deleted I012.JPG
+
+> CDUP
+< 250 OK. Current directory is /public_html/images
+
+> RMD intermediate
+< 250 The directory was successfully removed
+
+> CWD hero-open
+< 250 OK. Current directory is /public_html/images/hero-open
+
+> EPSV
+< 229 Extended Passive mode OK (|||61294|)
+
+> MLSD
+< 150 Accepted data connection
+226 4 matches total
+
+Downloading from 206.168.149.58:61294 (No encryption)
+type=cdir;sizd=4096;modify=20260408015005;UNIX.mode=0755;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d20; .
+type=pdir;sizd=4096;modify=20260408015245;UNIX.mode=0755;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452cd0; ..
+type=file;size=254211;modify=20260408015005;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d22; H002.jpg
+type=file;size=818523;modify=20260408015005;UNIX.mode=0644;UNIX.uid=2153;UNIX.gid=2156;unique=fd00gc452d21; H001.JPG
+
+> DELE H002.jpg
+< 250 Deleted H002.jpg
+
+> DELE H001.JPG
+< 250 Deleted H001.JPG
+
+> CDUP
+< 250 OK. Current directory is /public_html/images
+
+> RMD hero-open
+< 250 The directory was successfully removed
+
+> CDUP
+< 250 OK. Current directory is /public_html
+
+> RMD /public_html/images
+< 250 The directory was successfully removed
+
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+Deleted directory: images
+dist/images exists, replacing remote images folder.
+> PWD
+< 257 "/public_html" is your current location
+
+> MKD assets
+< 257 "assets" : The directory was successfully created
+
+> CWD assets
+< 250 OK. Current directory is /public_html/assets
+
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||52593|)
+
+> STOR assets/index-BJHIj9YW.css
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:52593 (No encryption)
+< 226-File successfully transferred
+226 0.054 seconds (measured here), 424.02 Kbytes per second
+
+Uploading file: assets/index-BJHIj9YW.css
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||60567|)
+
+> STOR assets/index-Bt-bKRE4.js
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:60567 (No encryption)
+< 226-File successfully transferred
+226 0.125 seconds (measured here), 2.04 Mbytes per second
+
+Uploading file: assets/index-Bt-bKRE4.js
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+Uploading file: favicon.svg
+> EPSV
+< 229 Extended Passive mode OK (|||64023|)
+
+> STOR favicon.svg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:64023 (No encryption)
+< 226-File successfully transferred
+226 0.031 seconds (measured here), 300.87 Kbytes per second
+
+Uploading file: icons.svg
+> EPSV
+< 229 Extended Passive mode OK (|||59781|)
+
+> STOR icons.svg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:59781 (No encryption)
+< 226-File successfully transferred
+226 0.026 seconds (measured here), 187.29 Kbytes per second
+
+> PWD
+< 257 "/public_html" is your current location
+
+> MKD images
+< 257 "images" : The directory was successfully created
+
+> CWD images
+< 250 OK. Current directory is /public_html/images
+
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> PWD
+< 257 "/public_html" is your current location
+
+> MKD images
+< 550 Can't create directory: File exists
+
+> CWD images
+< 250 OK. Current directory is /public_html/images
+
+> MKD advanced
+< 257 "advanced" : The directory was successfully created
+
+> CWD advanced
+< 250 OK. Current directory is /public_html/images/advanced
+
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||56811|)
+
+> STOR images/advanced/A001.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:56811 (No encryption)
+< 226-File successfully transferred
+226 0.053 seconds (measured here), 0.69 Mbytes per second
+
+Uploading file: images/advanced/A001.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||58997|)
+
+> STOR images/advanced/A002.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:58997 (No encryption)
+< 226-File successfully transferred
+226 0.048 seconds (measured here), 0.52 Mbytes per second
+
+Uploading file: images/advanced/A002.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||60020|)
+
+> STOR images/advanced/A003.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:60020 (No encryption)
+< 226-File successfully transferred
+226 0.050 seconds (measured here), 0.80 Mbytes per second
+
+Uploading file: images/advanced/A003.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||54226|)
+
+> STOR images/advanced/A004.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:54226 (No encryption)
+< 226-File successfully transferred
+226 0.175 seconds (measured here), 4.96 Mbytes per second
+
+Uploading file: images/advanced/A004.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||50656|)
+
+> STOR images/advanced/A005.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:50656 (No encryption)
+< 226-File successfully transferred
+226 0.170 seconds (measured here), 3.74 Mbytes per second
+
+Uploading file: images/advanced/A005.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||64232|)
+
+> STOR images/advanced/A006.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:64232 (No encryption)
+< 226-File successfully transferred
+226 0.074 seconds (measured here), 0.99 Mbytes per second
+
+Uploading file: images/advanced/A006.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||54053|)
+
+> STOR images/advanced/A007.txt
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:54053 (No encryption)
+< 226-File successfully transferred
+226 0.027 seconds (measured here), 173.51 Kbytes per second
+
+Uploading file: images/advanced/A007.txt
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||50283|)
+
+> STOR images/advanced/A008.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:50283 (No encryption)
+< 226-File successfully transferred
+226 0.125 seconds (measured here), 2.51 Mbytes per second
+
+Uploading file: images/advanced/A008.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||57489|)
+
+> STOR images/advanced/A009.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:57489 (No encryption)
+< 226-File successfully transferred
+226 0.102 seconds (measured here), 1.41 Mbytes per second
+
+Uploading file: images/advanced/A009.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||53275|)
+
+> STOR images/advanced/A010.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:53275 (No encryption)
+< 226-File successfully transferred
+226 0.139 seconds (measured here), 2.44 Mbytes per second
+
+Uploading file: images/advanced/A010.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||50518|)
+
+> STOR images/advanced/A011.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:50518 (No encryption)
+< 226-File successfully transferred
+226 0.169 seconds (measured here), 4.12 Mbytes per second
+
+Uploading file: images/advanced/A011.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||60213|)
+
+> STOR images/advanced/A012.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:60213 (No encryption)
+< 226-File successfully transferred
+226 0.074 seconds (measured here), 0.58 Mbytes per second
+
+Uploading file: images/advanced/A012.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||51449|)
+
+> STOR images/advanced/A013.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:51449 (No encryption)
+< 226-File successfully transferred
+226 0.114 seconds (measured here), 1.91 Mbytes per second
+
+Uploading file: images/advanced/A013.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||49983|)
+
+> STOR images/advanced/A014.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:49983 (No encryption)
+< 226-File successfully transferred
+226 0.173 seconds (measured here), 4.51 Mbytes per second
+
+Uploading file: images/advanced/A014.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||62348|)
+
+> STOR images/advanced/A015.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:62348 (No encryption)
+< 226-File successfully transferred
+226 0.096 seconds (measured here), 1.41 Mbytes per second
+
+Uploading file: images/advanced/A015.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||53646|)
+
+> STOR images/advanced/A016.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:53646 (No encryption)
+< 226-File successfully transferred
+226 0.074 seconds (measured here), 0.96 Mbytes per second
+
+Uploading file: images/advanced/A016.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||55916|)
+
+> STOR images/advanced/A017.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:55916 (No encryption)
+< 226-File successfully transferred
+226 0.093 seconds (measured here), 1.18 Mbytes per second
+
+Uploading file: images/advanced/A017.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||50288|)
+
+> STOR images/advanced/A018.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:50288 (No encryption)
+< 226-File successfully transferred
+226 0.051 seconds (measured here), 356.41 Kbytes per second
+
+Uploading file: images/advanced/A018.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||49627|)
+
+> STOR images/advanced/A019.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:49627 (No encryption)
+< 226-File successfully transferred
+226 0.051 seconds (measured here), 410.96 Kbytes per second
+
+Uploading file: images/advanced/A019.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||50101|)
+
+> STOR images/advanced/A020.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:50101 (No encryption)
+< 226-File successfully transferred
+226 0.057 seconds (measured here), 0.63 Mbytes per second
+
+Uploading file: images/advanced/A020.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||63665|)
+
+> STOR images/advanced/A021.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:63665 (No encryption)
+< 226-File successfully transferred
+226 0.049 seconds (measured here), 0.50 Mbytes per second
+
+Uploading file: images/advanced/A021.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||64895|)
+
+> STOR images/advanced/A022.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:64895 (No encryption)
+< 226-File successfully transferred
+226 0.051 seconds (measured here), 307.32 Kbytes per second
+
+Uploading file: images/advanced/A022.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||57230|)
+
+> STOR images/advanced/A023.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:57230 (No encryption)
+< 226-File successfully transferred
+226 0.155 seconds (measured here), 3.31 Mbytes per second
+
+Uploading file: images/advanced/A023.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||52462|)
+
+> STOR images/advanced/A024.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:52462 (No encryption)
+< 226-File successfully transferred
+226 0.174 seconds (measured here), 4.27 Mbytes per second
+
+Uploading file: images/advanced/A024.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||51370|)
+
+> STOR images/advanced/A025.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:51370 (No encryption)
+< 226-File successfully transferred
+226 0.076 seconds (measured here), 1.17 Mbytes per second
+
+Uploading file: images/advanced/A025.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||63071|)
+
+> STOR images/advanced/A026.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:63071 (No encryption)
+< 226-File successfully transferred
+226 0.124 seconds (measured here), 1.78 Mbytes per second
+
+Uploading file: images/advanced/A026.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||57679|)
+
+> STOR images/advanced/A027.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:57679 (No encryption)
+< 226-File successfully transferred
+226 0.112 seconds (measured here), 1.84 Mbytes per second
+
+Uploading file: images/advanced/A027.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||59281|)
+
+> STOR images/advanced/A028.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:59281 (No encryption)
+< 226-File successfully transferred
+226 0.113 seconds (measured here), 2.15 Mbytes per second
+
+Uploading file: images/advanced/A028.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||57869|)
+
+> STOR images/advanced/A029.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:57869 (No encryption)
+< 226-File successfully transferred
+226 0.099 seconds (measured here), 1.37 Mbytes per second
+
+Uploading file: images/advanced/A029.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||56575|)
+
+> STOR images/advanced/A030.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:56575 (No encryption)
+< 226-File successfully transferred
+226 0.091 seconds (measured here), 1.24 Mbytes per second
+
+Uploading file: images/advanced/A030.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||61393|)
+
+> STOR images/advanced/A031.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:61393 (No encryption)
+< 226-File successfully transferred
+226 0.089 seconds (measured here), 1.39 Mbytes per second
+
+Uploading file: images/advanced/A031.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||54153|)
+
+> STOR images/advanced/A032.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:54153 (No encryption)
+< 226-File successfully transferred
+226 0.095 seconds (measured here), 1.10 Mbytes per second
+
+Uploading file: images/advanced/A032.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||62541|)
+
+> STOR images/advanced/A033.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:62541 (No encryption)
+< 226-File successfully transferred
+226 0.091 seconds (measured here), 1.38 Mbytes per second
+
+Uploading file: images/advanced/A033.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||50425|)
+
+> STOR images/advanced/A034.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:50425 (No encryption)
+< 226-File successfully transferred
+226 0.113 seconds (measured here), 1.58 Mbytes per second
+
+Uploading file: images/advanced/A034.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||53125|)
+
+> STOR images/advanced/A035.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:53125 (No encryption)
+< 226-File successfully transferred
+226 0.105 seconds (measured here), 1.55 Mbytes per second
+
+Uploading file: images/advanced/A035.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||51087|)
+
+> STOR images/advanced/A036.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:51087 (No encryption)
+< 226-File successfully transferred
+226 0.095 seconds (measured here), 1.43 Mbytes per second
+
+Uploading file: images/advanced/A036.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||54451|)
+
+> STOR images/advanced/A037.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:54451 (No encryption)
+< 226-File successfully transferred
+226 0.096 seconds (measured here), 1.61 Mbytes per second
+
+Uploading file: images/advanced/A037.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||63851|)
+
+> STOR images/advanced/A038.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:63851 (No encryption)
+< 226-File successfully transferred
+226 0.096 seconds (measured here), 1.58 Mbytes per second
+
+Uploading file: images/advanced/A038.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||64494|)
+
+> STOR images/advanced/A039.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:64494 (No encryption)
+< 226-File successfully transferred
+226 0.090 seconds (measured here), 1.25 Mbytes per second
+
+Uploading file: images/advanced/A039.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||53476|)
+
+> STOR images/advanced/A040.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:53476 (No encryption)
+< 226-File successfully transferred
+226 0.097 seconds (measured here), 1.41 Mbytes per second
+
+Uploading file: images/advanced/A040.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||58344|)
+
+> STOR images/advanced/A041.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:58344 (No encryption)
+< 226-File successfully transferred
+226 0.080 seconds (measured here), 1.17 Mbytes per second
+
+Uploading file: images/advanced/A041.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> PWD
+< 257 "/public_html" is your current location
+
+> MKD images
+< 550 Can't create directory: File exists
+
+> CWD images
+< 250 OK. Current directory is /public_html/images
+
+> MKD beginners
+< 257 "beginners" : The directory was successfully created
+
+> CWD beginners
+< 250 OK. Current directory is /public_html/images/beginners
+
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||53600|)
+
+> STOR images/beginners/B001.txt
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:53600 (No encryption)
+< 226-File successfully transferred
+226 0.024 seconds (measured here), 41.54 Kbytes per second
+
+Uploading file: images/beginners/B001.txt
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||65123|)
+
+> STOR images/beginners/B002.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:65123 (No encryption)
+< 226-File successfully transferred
+226 0.097 seconds (measured here), 1.48 Mbytes per second
+
+Uploading file: images/beginners/B002.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||53926|)
+
+> STOR images/beginners/B003.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:53926 (No encryption)
+< 226-File successfully transferred
+226 0.158 seconds (measured here), 3.62 Mbytes per second
+
+Uploading file: images/beginners/B003.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||52957|)
+
+> STOR images/beginners/B004.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:52957 (No encryption)
+< 226-File successfully transferred
+226 0.143 seconds (measured here), 2.89 Mbytes per second
+
+Uploading file: images/beginners/B004.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||49331|)
+
+> STOR images/beginners/B005.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:49331 (No encryption)
+< 226-File successfully transferred
+226 0.123 seconds (measured here), 1.82 Mbytes per second
+
+Uploading file: images/beginners/B005.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||56394|)
+
+> STOR images/beginners/B006.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:56394 (No encryption)
+< 226-File successfully transferred
+226 0.142 seconds (measured here), 2.92 Mbytes per second
+
+Uploading file: images/beginners/B006.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||49564|)
+
+> STOR images/beginners/B007.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:49564 (No encryption)
+< 226-File successfully transferred
+226 0.120 seconds (measured here), 2.20 Mbytes per second
+
+Uploading file: images/beginners/B007.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||59161|)
+
+> STOR images/beginners/B008.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:59161 (No encryption)
+< 226-File successfully transferred
+226 0.121 seconds (measured here), 2.20 Mbytes per second
+
+Uploading file: images/beginners/B008.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||55455|)
+
+> STOR images/beginners/B009.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:55455 (No encryption)
+< 226-File successfully transferred
+226 0.117 seconds (measured here), 1.84 Mbytes per second
+
+Uploading file: images/beginners/B009.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||51035|)
+
+> STOR images/beginners/B010.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:51035 (No encryption)
+< 226-File successfully transferred
+226 0.105 seconds (measured here), 1.47 Mbytes per second
+
+Uploading file: images/beginners/B010.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> PWD
+< 257 "/public_html" is your current location
+
+> MKD images
+< 550 Can't create directory: File exists
+
+> CWD images
+< 250 OK. Current directory is /public_html/images
+
+> MKD gallery
+< 257 "gallery" : The directory was successfully created
+
+> CWD gallery
+< 250 OK. Current directory is /public_html/images/gallery
+
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||51533|)
+
+> STOR images/gallery/G001.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:51533 (No encryption)
+< 226-File successfully transferred
+226 0.173 seconds (measured here), 5.02 Mbytes per second
+
+Uploading file: images/gallery/G001.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||63807|)
+
+> STOR images/gallery/G002.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:63807 (No encryption)
+< 226-File successfully transferred
+226 0.156 seconds (measured here), 4.08 Mbytes per second
+
+Uploading file: images/gallery/G002.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||52750|)
+
+> STOR images/gallery/G003.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:52750 (No encryption)
+< 226-File successfully transferred
+226 0.129 seconds (measured here), 2.44 Mbytes per second
+
+Uploading file: images/gallery/G003.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||50490|)
+
+> STOR images/gallery/G004.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:50490 (No encryption)
+< 226-File successfully transferred
+226 0.132 seconds (measured here), 2.55 Mbytes per second
+
+Uploading file: images/gallery/G004.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||64801|)
+
+> STOR images/gallery/G005.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:64801 (No encryption)
+< 226-File successfully transferred
+226 0.116 seconds (measured here), 1.87 Mbytes per second
+
+Uploading file: images/gallery/G005.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||50738|)
+
+> STOR images/gallery/G006.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:50738 (No encryption)
+< 226-File successfully transferred
+226 0.163 seconds (measured here), 4.80 Mbytes per second
+
+Uploading file: images/gallery/G006.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||51435|)
+
+> STOR images/gallery/G007.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:51435 (No encryption)
+< 226-File successfully transferred
+226 0.092 seconds (measured here), 1.21 Mbytes per second
+
+Uploading file: images/gallery/G007.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||57694|)
+
+> STOR images/gallery/G008.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:57694 (No encryption)
+< 226-File successfully transferred
+226 0.049 seconds (measured here), 371.24 Kbytes per second
+
+Uploading file: images/gallery/G008.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||54671|)
+
+> STOR images/gallery/G009.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:54671 (No encryption)
+< 226-File successfully transferred
+226 0.053 seconds (measured here), 0.68 Mbytes per second
+
+Uploading file: images/gallery/G009.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||49295|)
+
+> STOR images/gallery/G010.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:49295 (No encryption)
+< 226-File successfully transferred
+226 0.119 seconds (measured here), 1.85 Mbytes per second
+
+Uploading file: images/gallery/G010.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||49801|)
+
+> STOR images/gallery/G011.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:49801 (No encryption)
+< 226-File successfully transferred
+226 0.102 seconds (measured here), 1.59 Mbytes per second
+
+Uploading file: images/gallery/G011.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> PWD
+< 257 "/public_html" is your current location
+
+> MKD images
+< 550 Can't create directory: File exists
+
+> CWD images
+< 250 OK. Current directory is /public_html/images
+
+> MKD hero-open
+< 257 "hero-open" : The directory was successfully created
+
+> CWD hero-open
+< 250 OK. Current directory is /public_html/images/hero-open
+
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||51241|)
+
+> STOR images/hero-open/H001.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:51241 (No encryption)
+< 226-File successfully transferred
+226 0.176 seconds (measured here), 4.44 Mbytes per second
+
+Uploading file: images/hero-open/H001.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||57694|)
+
+> STOR images/hero-open/H002.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:57694 (No encryption)
+< 226-File successfully transferred
+226 0.114 seconds (measured here), 2.13 Mbytes per second
+
+Uploading file: images/hero-open/H002.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> PWD
+< 257 "/public_html" is your current location
+
+> MKD images
+< 550 Can't create directory: File exists
+
+> CWD images
+< 250 OK. Current directory is /public_html/images
+
+> MKD intermediate
+< 257 "intermediate" : The directory was successfully created
+
+> CWD intermediate
+< 250 OK. Current directory is /public_html/images/intermediate
+
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||55619|)
+
+> STOR images/intermediate/I001.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:55619 (No encryption)
+< 226-File successfully transferred
+226 0.052 seconds (measured here), 301.05 Kbytes per second
+
+Uploading file: images/intermediate/I001.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||59692|)
+
+> STOR images/intermediate/I002.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:59692 (No encryption)
+< 226-File successfully transferred
+226 0.049 seconds (measured here), 0.59 Mbytes per second
+
+Uploading file: images/intermediate/I002.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||58269|)
+
+> STOR images/intermediate/I003.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:58269 (No encryption)
+< 226-File successfully transferred
+226 0.073 seconds (measured here), 0.57 Mbytes per second
+
+Uploading file: images/intermediate/I003.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||54358|)
+
+> STOR images/intermediate/I004.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:54358 (No encryption)
+< 226-File successfully transferred
+226 0.054 seconds (measured here), 0.75 Mbytes per second
+
+Uploading file: images/intermediate/I004.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||60480|)
+
+> STOR images/intermediate/I005.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:60480 (No encryption)
+< 226-File successfully transferred
+226 0.054 seconds (measured here), 0.52 Mbytes per second
+
+Uploading file: images/intermediate/I005.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||55170|)
+
+> STOR images/intermediate/I006.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:55170 (No encryption)
+< 226-File successfully transferred
+226 0.052 seconds (measured here), 0.74 Mbytes per second
+
+Uploading file: images/intermediate/I006.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||64816|)
+
+> STOR images/intermediate/I007.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:64816 (No encryption)
+< 226-File successfully transferred
+226 0.119 seconds (measured here), 2.01 Mbytes per second
+
+Uploading file: images/intermediate/I007.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||64880|)
+
+> STOR images/intermediate/I008.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:64880 (No encryption)
+< 226-File successfully transferred
+226 0.153 seconds (measured here), 3.87 Mbytes per second
+
+Uploading file: images/intermediate/I008.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||52130|)
+
+> STOR images/intermediate/I009.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:52130 (No encryption)
+< 226-File successfully transferred
+226 0.137 seconds (measured here), 2.73 Mbytes per second
+
+Uploading file: images/intermediate/I009.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||59085|)
+
+> STOR images/intermediate/I010.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:59085 (No encryption)
+< 226-File successfully transferred
+226 0.211 seconds (measured here), 4.21 Mbytes per second
+
+Uploading file: images/intermediate/I010.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||57764|)
+
+> STOR images/intermediate/I011.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:57764 (No encryption)
+< 226-File successfully transferred
+226 0.161 seconds (measured here), 3.43 Mbytes per second
+
+Uploading file: images/intermediate/I011.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||50203|)
+
+> STOR images/intermediate/I012.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:50203 (No encryption)
+< 226-File successfully transferred
+226 0.150 seconds (measured here), 2.90 Mbytes per second
+
+Uploading file: images/intermediate/I012.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||61147|)
+
+> STOR images/intermediate/I013.txt
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:61147 (No encryption)
+< 226-File successfully transferred
+226 0.024 seconds (measured here), 57.51 Kbytes per second
+
+Uploading file: images/intermediate/I013.txt
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> PWD
+< 257 "/public_html" is your current location
+
+> MKD images
+< 550 Can't create directory: File exists
+
+> CWD images
+< 250 OK. Current directory is /public_html/images
+
+> MKD kidsart
+< 257 "kidsart" : The directory was successfully created
+
+> CWD kidsart
+< 250 OK. Current directory is /public_html/images/kidsart
+
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||59070|)
+
+> STOR images/kidsart/K001.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:59070 (No encryption)
+< 226-File successfully transferred
+226 0.049 seconds (measured here), 306.14 Kbytes per second
+
+Uploading file: images/kidsart/K001.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||60382|)
+
+> STOR images/kidsart/K002.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:60382 (No encryption)
+< 226-File successfully transferred
+226 0.048 seconds (measured here), 432.80 Kbytes per second
+
+Uploading file: images/kidsart/K002.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||59602|)
+
+> STOR images/kidsart/K003.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:59602 (No encryption)
+< 226-File successfully transferred
+226 0.049 seconds (measured here), 0.84 Mbytes per second
+
+Uploading file: images/kidsart/K003.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||64389|)
+
+> STOR images/kidsart/K004.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:64389 (No encryption)
+< 226-File successfully transferred
+226 0.051 seconds (measured here), 0.77 Mbytes per second
+
+Uploading file: images/kidsart/K004.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||55391|)
+
+> STOR images/kidsart/K005.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:55391 (No encryption)
+< 226-File successfully transferred
+226 0.049 seconds (measured here), 0.56 Mbytes per second
+
+Uploading file: images/kidsart/K005.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||50027|)
+
+> STOR images/kidsart/K006.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:50027 (No encryption)
+< 226-File successfully transferred
+226 0.048 seconds (measured here), 306.52 Kbytes per second
+
+Uploading file: images/kidsart/K006.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||52903|)
+
+> STOR images/kidsart/K007.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:52903 (No encryption)
+< 226-File successfully transferred
+226 0.080 seconds (measured here), 1.01 Mbytes per second
+
+Uploading file: images/kidsart/K007.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||55643|)
+
+> STOR images/kidsart/K008.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:55643 (No encryption)
+< 226-File successfully transferred
+226 0.050 seconds (measured here), 310.30 Kbytes per second
+
+Uploading file: images/kidsart/K008.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||52343|)
+
+> STOR images/kidsart/K009.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:52343 (No encryption)
+< 226-File successfully transferred
+226 0.051 seconds (measured here), 0.78 Mbytes per second
+
+Uploading file: images/kidsart/K009.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||49637|)
+
+> STOR images/kidsart/K010.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:49637 (No encryption)
+< 226-File successfully transferred
+226 0.077 seconds (measured here), 0.55 Mbytes per second
+
+Uploading file: images/kidsart/K010.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||56967|)
+
+> STOR images/kidsart/K011.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:56967 (No encryption)
+< 226-File successfully transferred
+226 0.053 seconds (measured here), 0.63 Mbytes per second
+
+Uploading file: images/kidsart/K011.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||58928|)
+
+> STOR images/kidsart/K012.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:58928 (No encryption)
+< 226-File successfully transferred
+226 0.054 seconds (measured here), 0.56 Mbytes per second
+
+Uploading file: images/kidsart/K012.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||60767|)
+
+> STOR images/kidsart/K013.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:60767 (No encryption)
+< 226-File successfully transferred
+226 0.072 seconds (measured here), 0.65 Mbytes per second
+
+Uploading file: images/kidsart/K013.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||64706|)
+
+> STOR images/kidsart/K014.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:64706 (No encryption)
+< 226-File successfully transferred
+226 0.026 seconds (measured here), 441.69 Kbytes per second
+
+Uploading file: images/kidsart/K014.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||62642|)
+
+> STOR images/kidsart/K015.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:62642 (No encryption)
+< 226-File successfully transferred
+226 0.057 seconds (measured here), 0.67 Mbytes per second
+
+Uploading file: images/kidsart/K015.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||56757|)
+
+> STOR images/kidsart/K016.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:56757 (No encryption)
+< 226-File successfully transferred
+226 0.076 seconds (measured here), 0.71 Mbytes per second
+
+Uploading file: images/kidsart/K016.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||64139|)
+
+> STOR images/kidsart/K017.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:64139 (No encryption)
+< 226-File successfully transferred
+226 0.055 seconds (measured here), 0.63 Mbytes per second
+
+Uploading file: images/kidsart/K017.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||61554|)
+
+> STOR images/kidsart/K018.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:61554 (No encryption)
+< 226-File successfully transferred
+226 0.076 seconds (measured here), 0.83 Mbytes per second
+
+Uploading file: images/kidsart/K018.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||63725|)
+
+> STOR images/kidsart/K019.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:63725 (No encryption)
+< 226-File successfully transferred
+226 0.049 seconds (measured here), 0.76 Mbytes per second
+
+Uploading file: images/kidsart/K019.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||57045|)
+
+> STOR images/kidsart/K020.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:57045 (No encryption)
+< 226-File successfully transferred
+226 0.050 seconds (measured here), 0.62 Mbytes per second
+
+Uploading file: images/kidsart/K020.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||52326|)
+
+> STOR images/kidsart/K021.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:52326 (No encryption)
+< 226-File successfully transferred
+226 0.133 seconds (measured here), 191.78 Kbytes per second
+
+Uploading file: images/kidsart/K021.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||55010|)
+
+> STOR images/kidsart/K022.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:55010 (No encryption)
+< 226-File successfully transferred
+226 0.073 seconds (measured here), 0.78 Mbytes per second
+
+Uploading file: images/kidsart/K022.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||58306|)
+
+> STOR images/kidsart/K023.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:58306 (No encryption)
+< 226-File successfully transferred
+226 0.046 seconds (measured here), 306.58 Kbytes per second
+
+Uploading file: images/kidsart/K023.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||53695|)
+
+> STOR images/kidsart/K024.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:53695 (No encryption)
+< 226-File successfully transferred
+226 0.052 seconds (measured here), 0.60 Mbytes per second
+
+Uploading file: images/kidsart/K024.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||60705|)
+
+> STOR images/kidsart/K025.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:60705 (No encryption)
+< 226-File successfully transferred
+226 0.026 seconds (measured here), 430.24 Kbytes per second
+
+Uploading file: images/kidsart/K025.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||52755|)
+
+> STOR images/kidsart/K026.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:52755 (No encryption)
+< 226-File successfully transferred
+226 0.073 seconds (measured here), 0.79 Mbytes per second
+
+Uploading file: images/kidsart/K026.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||63232|)
+
+> STOR images/kidsart/K027.jpg
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:63232 (No encryption)
+< 226-File successfully transferred
+226 0.070 seconds (measured here), 0.63 Mbytes per second
+
+Uploading file: images/kidsart/K027.jpg
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||63016|)
+
+> STOR images/kidsart/K028.JPG
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:63016 (No encryption)
+< 226-File successfully transferred
+226 0.136 seconds (measured here), 2.74 Mbytes per second
+
+Uploading file: images/kidsart/K028.JPG
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> EPSV
+< 229 Extended Passive mode OK (|||64167|)
+
+> STOR images/kidsart/K029.txt
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:64167 (No encryption)
+< 226-File successfully transferred
+226 0.023 seconds (measured here), 149.65 Kbytes per second
+
+Uploading file: images/kidsart/K029.txt
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+> CWD /public_html
+< 250 OK. Current directory is /public_html
+
+Uploading file: index.html
+> EPSV
+< 229 Extended Passive mode OK (|||53688|)
+
+> STOR index.html
+< 150 Accepted data connection
+
+Uploading to 206.168.149.58:53688 (No encryption)
+< 226-File successfully transferred
+226 0.024 seconds (measured here), 54.94 Kbytes per second
+
+Deploy complete.
+> QUIT

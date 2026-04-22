@@ -1,0 +1,560 @@
+const express = require("express");
+const cors = require("cors");
+const fs = require("fs");
+const path = require("path");
+const net = require("net");
+const sqlite3 = require("sqlite3").verbose();
+const { spawn } = require("child_process");
+const { pathToFileURL } = require("url");
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+const projectDir = "/Users/rajamac/Documents/rprojects/rekafinearts-site";
+const backendScript = path.join(projectDir, "server.cjs");
+const backendPort = 3002;
+const managerPort = 3003;
+const dbPath = path.join(projectDir, "rekafinearts.db");
+const initDbScript = path.join(projectDir, "init-db.cjs");
+const seedDbScript = path.join(projectDir, "seed-images.cjs");
+const refreshImageDataScript = path.join(projectDir, "generate-image-data.py");
+const watermarkScript = path.join(projectDir, "scripts", "watermark-images.py");
+
+const logsDir = path.join(projectDir, ".local-manager");
+const backendPidFile = path.join(logsDir, "backend.pid");
+const backendLogFile = path.join(logsDir, "backend.log");
+const toolLogFile = path.join(logsDir, "tools.log");
+
+fs.mkdirSync(logsDir, { recursive: true });
+
+function requireLocalOnly(req, res, next) {
+  const ip = req.ip || req.socket?.remoteAddress || "";
+  const host = req.headers.host || "";
+
+  const isLocal =
+    ip.includes("127.0.0.1") ||
+    ip.includes("::1") ||
+    host.startsWith("localhost") ||
+    host.startsWith("127.0.0.1");
+
+  if (!isLocal) {
+    return res.status(403).json({ error: "Local access only" });
+  }
+
+  next();
+}
+
+app.use(requireLocalOnly);
+
+function fileExists(p) {
+  try {
+    return fs.existsSync(p);
+  } catch {
+    return false;
+  }
+}
+
+function readPid() {
+  if (!fileExists(backendPidFile)) return null;
+  const raw = fs.readFileSync(backendPidFile, "utf8").trim();
+  const pid = Number(raw);
+  return Number.isFinite(pid) ? pid : null;
+}
+
+function isProcessRunning(pid) {
+  if (!pid) return false;
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function wait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function tailFile(filePath, lines = 60) {
+  if (!fileExists(filePath)) return "";
+  const content = fs.readFileSync(filePath, "utf8");
+  return content.split(/\r?\n/).slice(-lines).join("\n");
+}
+
+function formatBytes(bytes) {
+  if (bytes == null) return null;
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+}
+
+function checkPortOpen(port, host = "127.0.0.1", timeout = 500) {
+  return new Promise((resolve) => {
+    const socket = new net.Socket();
+    let done = false;
+
+    const finish = (result) => {
+      if (done) return;
+      done = true;
+      socket.destroy();
+      resolve(result);
+    };
+
+    socket.setTimeout(timeout);
+    socket.once("connect", () => finish(true));
+    socket.once("timeout", () => finish(false));
+    socket.once("error", () => finish(false));
+    socket.connect(port, host);
+  });
+}
+
+function runDetachedNode(scriptPath, logFile) {
+  const out = fs.openSync(logFile, "a");
+  const child = spawn(process.execPath, [scriptPath], {
+    cwd: projectDir,
+    detached: true,
+    stdio: ["ignore", out, out],
+    env: process.env,
+  });
+  child.unref();
+  return child.pid;
+}
+
+function runProcess(command, args = [], logFile = toolLogFile) {
+  return new Promise((resolve, reject) => {
+    const out = fs.openSync(logFile, "a");
+    const child = spawn(command, args, {
+      cwd: projectDir,
+      env: process.env,
+      stdio: ["ignore", out, out],
+    });
+
+    let stderr = "";
+    child.stderr?.on("data", (chunk) => {
+      stderr += String(chunk);
+    });
+
+    child.on("error", reject);
+    child.on("close", (code) => {
+      if (code === 0) {
+        resolve({ ok: true, code });
+      } else {
+        reject(new Error(stderr || `Command failed with code ${code}`));
+      }
+    });
+  });
+}
+
+async function getBackendStatus() {
+  const pid = readPid();
+  const managedRunning = isProcessRunning(pid);
+  const portOpen = await checkPortOpen(backendPort);
+
+  let status = "stopped";
+  let note = "Backend is not running.";
+
+  if (managedRunning) {
+    status = "running";
+    note = "Managed backend is running on localhost:3002.";
+  } else if (portOpen) {
+    status = "running-external";
+    note = "Port 3002 is open, but this manager did not start that backend process.";
+  }
+
+  return {
+    name: "backend",
+    status,
+    pid: managedRunning ? pid : null,
+    port: backendPort,
+    portOpen,
+    script: backendScript,
+    logFile: backendLogFile,
+    note,
+    tail: tailFile(backendLogFile, 20),
+  };
+}
+
+function sqliteAll(db, sql) {
+  return new Promise((resolve, reject) => {
+    db.all(sql, (err, rows) => (err ? reject(err) : resolve(rows)));
+  });
+}
+
+function sqliteGet(db, sql) {
+  return new Promise((resolve, reject) => {
+    db.get(sql, (err, row) => (err ? reject(err) : resolve(row)));
+  });
+}
+
+async function getLocalDbMetrics() {
+  const exists = fileExists(dbPath);
+  const stat = exists ? fs.statSync(dbPath) : null;
+
+  const base = {
+    type: "sqlite",
+    scope: "local",
+    exists,
+    dbName: path.basename(dbPath),
+    dbPath,
+    fileSizeBytes: stat ? stat.size : 0,
+    fileSizeHuman: stat ? formatBytes(stat.size) : null,
+    lastModified: stat ? stat.mtime.toISOString() : null,
+    tables: [],
+    summary: {
+      totalTables: 0,
+      totalRecordsAcrossTables: 0,
+      approvedComments: 0,
+      pendingComments: 0,
+    },
+    note: "This is the local SQLite database used by localhost. It is not the cPanel/live-site database.",
+  };
+
+  if (!exists) return base;
+
+  const db = new sqlite3.Database(dbPath);
+
+  try {
+    const tables = await sqliteAll(
+      db,
+      `SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name`
+    );
+
+    let totalRecordsAcrossTables = 0;
+    const tableRows = [];
+
+    for (const row of tables) {
+      const safeName = String(row.name).replace(/"/g, '""');
+      const countRow = await sqliteGet(db, `SELECT COUNT(*) AS count FROM "${safeName}"`);
+      const count = Number(countRow?.count || 0);
+      totalRecordsAcrossTables += count;
+      tableRows.push({ name: row.name, count });
+    }
+
+    let approvedComments = 0;
+    let pendingComments = 0;
+
+    const hasComments = tableRows.some((t) => t.name === "comments");
+    if (hasComments) {
+      const approved = await sqliteGet(db, `SELECT COUNT(*) AS count FROM comments WHERE approved = 1`);
+      const pending = await sqliteGet(db, `SELECT COUNT(*) AS count FROM comments WHERE approved = 0`);
+      approvedComments = Number(approved?.count || 0);
+      pendingComments = Number(pending?.count || 0);
+    }
+
+    return {
+      ...base,
+      tables: tableRows,
+      summary: {
+        totalTables: tableRows.length,
+        totalRecordsAcrossTables,
+        approvedComments,
+        pendingComments,
+      },
+    };
+  } finally {
+    db.close();
+  }
+}
+
+function getOnlineDbInfo() {
+  const dbName = process.env.REMOTE_DB_NAME || process.env.CPANEL_DB_NAME || null;
+  const dbHost = process.env.REMOTE_DB_HOST || process.env.CPANEL_DB_HOST || null;
+  const dbType = process.env.REMOTE_DB_TYPE || process.env.CPANEL_DB_TYPE || "unknown";
+
+  if (!dbName && !dbHost) {
+    return {
+      configured: false,
+      scope: "online",
+      status: "not-configured",
+      note: "Online/cPanel database is not configured here. Add REMOTE_DB_NAME / REMOTE_DB_HOST in .env if you want to document it.",
+    };
+  }
+
+  return {
+    configured: true,
+    scope: "online",
+    status: "configured",
+    dbName: dbName || "-",
+    host: dbHost || "-",
+    type: dbType,
+    note: "This is metadata only. The local manager does not administer the online database directly.",
+  };
+}
+
+function getUrls() {
+  return {
+    local: [
+      { label: "Frontend", url: "http://localhost:5173" },
+      { label: "Preview", url: "http://localhost:4173" },
+      { label: "Admin", url: "http://localhost:5173/admin" },
+      { label: "Deploy", url: "http://localhost:5173/deploy" },
+      { label: "Contact", url: "http://localhost:5173/contact" },
+      { label: "Backend API", url: "http://localhost:3002" },
+      { label: "Manager API", url: "http://localhost:3003" },
+    ],
+    live: [
+      { label: "Live Site", url: "https://rekagallery.vip" },
+      { label: "Live Contact", url: "https://rekagallery.vip/contact" },
+      { label: "Live Admin", url: "https://rekagallery.vip/admin" },
+    ],
+  };
+}
+
+async function loadDeployService() {
+  const fileUrl = pathToFileURL(path.join(projectDir, "scripts", "deploy-service.mjs")).href;
+  return import(fileUrl);
+}
+
+app.get("/api/system/summary", async (req, res) => {
+  try {
+    const [backend, localDatabase] = await Promise.all([
+      getBackendStatus(),
+      getLocalDbMetrics(),
+    ]);
+
+    res.json({
+      backend,
+      localDatabase,
+      onlineDatabase: getOnlineDbInfo(),
+      urls: getUrls(),
+      scripts: {
+        refreshImageData: refreshImageDataScript,
+        watermarkImages: watermarkScript,
+        initDb: initDbScript,
+        seedDb: seedDbScript,
+      },
+      logs: {
+        backendLogFile,
+        toolLogFile,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message || "Failed to load summary" });
+  }
+});
+
+app.post("/api/system/backend/start", async (req, res) => {
+  try {
+    const current = await getBackendStatus();
+    if (current.status === "running") {
+      return res.json({ ok: true, message: "Managed backend is already running.", backend: current });
+    }
+    if (current.status === "running-external") {
+      return res.json({ ok: true, message: "Port 3002 is already in use by another backend process.", backend: current });
+    }
+
+    const pid = runDetachedNode(backendScript, backendLogFile);
+    fs.writeFileSync(backendPidFile, String(pid), "utf8");
+    await wait(900);
+
+    res.json({ ok: true, message: "Managed backend started.", backend: await getBackendStatus() });
+  } catch (err) {
+    res.status(500).json({ error: err.message || "Failed to start backend" });
+  }
+});
+
+app.post("/api/system/backend/stop", async (req, res) => {
+  try {
+    const pid = readPid();
+    const current = await getBackendStatus();
+
+    if (!pid || !isProcessRunning(pid)) {
+      if (fileExists(backendPidFile)) fs.unlinkSync(backendPidFile);
+      return res.json({ ok: true, message: "No managed backend process to stop.", backend: current });
+    }
+
+    process.kill(pid, "SIGTERM");
+    await wait(900);
+
+    if (fileExists(backendPidFile)) fs.unlinkSync(backendPidFile);
+
+    res.json({ ok: true, message: "Managed backend stop requested.", backend: await getBackendStatus() });
+  } catch (err) {
+    res.status(500).json({ error: err.message || "Failed to stop backend" });
+  }
+});
+
+app.post("/api/system/backend/restart", async (req, res) => {
+  try {
+    const pid = readPid();
+    if (pid && isProcessRunning(pid)) {
+      process.kill(pid, "SIGTERM");
+      await wait(900);
+    }
+
+    if (fileExists(backendPidFile)) fs.unlinkSync(backendPidFile);
+
+    const newPid = runDetachedNode(backendScript, backendLogFile);
+    fs.writeFileSync(backendPidFile, String(newPid), "utf8");
+    await wait(900);
+
+    res.json({ ok: true, message: "Managed backend restarted.", backend: await getBackendStatus() });
+  } catch (err) {
+    res.status(500).json({ error: err.message || "Failed to restart backend" });
+  }
+});
+
+app.post("/api/system/db/test", async (req, res) => {
+  try {
+    const metrics = await getLocalDbMetrics();
+    if (!metrics.exists) {
+      return res.status(404).json({ error: "Local SQLite database file not found", metrics });
+    }
+    res.json({ ok: true, message: "Local SQLite database is readable.", metrics });
+  } catch (err) {
+    res.status(500).json({ error: err.message || "DB test failed" });
+  }
+});
+
+app.post("/api/system/db/init", async (req, res) => {
+  try {
+    if (!fileExists(initDbScript)) {
+      return res.status(404).json({ error: "init-db.cjs not found" });
+    }
+    await runProcess(process.execPath, [initDbScript]);
+    res.json({ ok: true, message: "Database init completed.", metrics: await getLocalDbMetrics() });
+  } catch (err) {
+    res.status(500).json({ error: err.message || "DB init failed" });
+  }
+});
+
+app.post("/api/system/db/seed", async (req, res) => {
+  try {
+    if (!fileExists(seedDbScript)) {
+      return res.status(404).json({ error: "seed-images.cjs not found" });
+    }
+    await runProcess(process.execPath, [seedDbScript]);
+    res.json({ ok: true, message: "Database seed completed.", metrics: await getLocalDbMetrics() });
+  } catch (err) {
+    res.status(500).json({ error: err.message || "DB seed failed" });
+  }
+});
+
+app.post("/api/tools/refresh-image-data", async (req, res) => {
+  try {
+    if (!fileExists(refreshImageDataScript)) {
+      return res.status(404).json({ error: "generate-image-data.py not found" });
+    }
+    await runProcess("python3", [refreshImageDataScript]);
+    res.json({
+      ok: true,
+      message: "Refresh Image Data completed. Local image metadata has been regenerated.",
+      outputTail: tailFile(toolLogFile, 80),
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message || "Refresh Image Data failed" });
+  }
+});
+
+app.post("/api/tools/apply-watermark", async (req, res) => {
+  try {
+    if (!fileExists(watermarkScript)) {
+      return res.status(404).json({ error: "watermark-images.py not found" });
+    }
+    await runProcess("python3", [watermarkScript]);
+    res.json({
+      ok: true,
+      message: "Apply Watermark completed. Local images now include the Reka Fine Arts watermark.",
+      outputTail: tailFile(toolLogFile, 80),
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message || "Apply Watermark failed" });
+  }
+});
+
+app.post("/api/tools/prepare-images", async (req, res) => {
+  try {
+    if (!fileExists(watermarkScript)) {
+      return res.status(404).json({ error: "watermark-images.py not found" });
+    }
+    if (!fileExists(refreshImageDataScript)) {
+      return res.status(404).json({ error: "generate-image-data.py not found" });
+    }
+
+    await runProcess("python3", [watermarkScript]);
+    await runProcess("python3", [refreshImageDataScript]);
+
+    res.json({
+      ok: true,
+      message: "Prepare Images for Publish completed. Watermark applied and image data refreshed.",
+      outputTail: tailFile(toolLogFile, 80),
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message || "Prepare Images for Publish failed" });
+  }
+});
+
+app.post("/api/deploy/test-ftp", async (req, res) => {
+  try {
+    const password = req.body?.password;
+    const { testFtpConnection } = await loadDeployService();
+    const result = await testFtpConnection(password);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message || "FTP test failed" });
+  }
+});
+
+app.post("/api/deploy/scan", async (req, res) => {
+  try {
+    const password = req.body?.password;
+    const { scanChangedFiles } = await loadDeployService();
+    const files = await scanChangedFiles({
+      build: req.body?.build !== false,
+      ftpPassword: password,
+    });
+    res.json({ files });
+  } catch (err) {
+    res.status(500).json({ error: err.message || "Scan failed" });
+  }
+});
+
+app.post("/api/deploy/stage", async (req, res) => {
+  try {
+    const password = req.body?.password;
+    const files = Array.isArray(req.body?.files) ? req.body.files : [];
+
+    const { stageFilesToCpanel } = await loadDeployService();
+    const uploaded = await stageFilesToCpanel(files, password);
+
+    res.json({
+      uploaded,
+      updatedAt: new Date().toISOString(),
+      message: "cPanel updated",
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message || "Deploy to cPanel failed" });
+  }
+});
+
+app.post("/api/deploy/live", async (req, res) => {
+  try {
+    const password = req.body?.password;
+
+    const { promoteIndexLive } = await loadDeployService();
+    const result = await promoteIndexLive(password);
+
+    res.json({
+      uploaded: result.uploaded,
+      indexUpdatedAt: new Date().toISOString(),
+      remotePath: result.remotePath,
+      message: "index.html updated live",
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message || "Live update failed" });
+  }
+});
+
+app.get("/api/system/logs", async (req, res) => {
+  res.json({
+    backendTail: tailFile(backendLogFile, 80),
+    toolTail: tailFile(toolLogFile, 80),
+    backendLogFile,
+    toolLogFile,
+  });
+});
+
+app.listen(managerPort, () => {
+  console.log(`Local manager listening on http://localhost:${managerPort}`);
+});

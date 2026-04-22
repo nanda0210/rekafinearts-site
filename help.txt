@@ -1,0 +1,362 @@
+Project: Reka Fine Arts
+
+Project root:
+/Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site
+
+========================================
+LOCAL URLS
+========================================
+
+Frontend home:
+http://localhost:5173/
+
+Admin page:
+http://localhost:5173/admin
+
+Backend API:
+http://localhost:3001
+
+========================================
+FOLDERS
+========================================
+
+Project root:
+ /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site
+
+Image folders:
+ /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site/public/images/gallery
+ /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site/public/images/advanced
+ /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site/public/images/intermediate
+ /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site/public/images/beginners
+ /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site/public/images/kidsart
+ /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site/public/images/hero-open
+
+Database file:
+ /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site/rekafinearts.db
+
+========================================
+FILES
+========================================
+
+Frontend main file:
+ src/App.jsx
+
+Generated image data:
+ src/imageData.js
+
+Frontend styles:
+ src/index.css
+
+Backend server:
+ server.cjs
+
+DB init script:
+ init-db.cjs
+
+Image manifest generator:
+ generate-image-data.py
+
+========================================
+FIRST TIME SETUP
+========================================
+
+1. Go to project root
+cd /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site
+
+2. Install frontend deps
+npm install
+
+3. Install backend deps
+npm install express cors sqlite3
+
+4. Initialize database
+node init-db.cjs
+
+5. Generate image data from folders
+python3 generate-image-data.py
+
+========================================
+DAILY STARTUP
+========================================
+
+Open Terminal tab 1:
+cd /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site
+node server.cjs
+
+Open Terminal tab 2:
+cd /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site
+npm run dev
+
+Then open:
+http://localhost:5173/
+
+========================================
+WHEN TO RUN PYTHON SCRIPT
+========================================
+
+Run this whenever:
+- you add new images
+- you rename images
+- you move images between category folders
+- you delete images
+- category image pages are not reflecting folder changes
+
+Command:
+cd /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site
+python3 generate-image-data.py
+
+========================================
+WHEN TO INITIALIZE DB
+========================================
+
+Run this:
+cd /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site
+node init-db.cjs
+
+Use it:
+- first time only
+- again only if database file is deleted and needs to be recreated
+
+========================================
+START / RESTART COMMANDS
+========================================
+
+Frontend:
+cd /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site
+npm run dev
+
+Backend:
+cd /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site
+node server.cjs
+
+Initialize DB:
+cd /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site
+node init-db.cjs
+
+Generate image data:
+cd /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site
+python3 generate-image-data.py
+
+========================================
+TROUBLESHOOTING
+========================================
+
+If npm says package.json not found:
+- you are in the wrong folder
+- go to:
+  /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site
+
+If category images do not show:
+1. confirm files are in the right category folder
+2. rerun:
+   python3 generate-image-data.py
+3. refresh frontend
+
+If hero image does not show:
+- verify file is inside:
+  public/images/hero-open
+- confirm exact filename in App.jsx
+
+If backend fails to start:
+- make sure you run:
+  node server.cjs
+- not node server.js
+
+If DB file is missing:
+- run:
+  node init-db.cjs
+
+========================================
+IMAGE NAMING CONVENTION
+========================================
+
+Advanced: A001, A002, ...
+Intermediate: I001, I002, ...
+Beginners: B001, B002, ...
+Kids Work: K001, K002, ...
+Gallery: G001, G002, ...
+Hero Open: H001, H002, ...
+
+========================================
+CURRENT PAGE INTENT
+========================================
+
+Home page remains landing page.
+Menu pages show one category at a time:
+- Gallery
+- Beginners
+- Intermediate
+- Advanced
+- Kids Work
+
+Gallery page can show:
+- bigger images
+- title/description area
+- likes
+- comments
+
+Admin page target:
+http://localhost:5173/admin
+
+========================================
+QUICK COMMANDS
+========================================
+
+cd /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site
+
+node init-db.cjs
+python3 generate-image-data.py
+node server.cjs
+npm run dev
+
+=====
+========================================
+ZIP AND MOVE TO HOSTING PORTAL
+========================================
+
+Purpose:
+Package the frontend build and upload it to cPanel hosting.
+
+Important:
+- Upload only the built frontend
+- Do NOT upload the full project folder
+- Do NOT upload node_modules, src, public, database, or backend files
+- Only upload the build output from dist
+
+----------------------------------------
+STEP 1: BUILD THE FRONTEND
+----------------------------------------
+
+cd /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site
+npm run build
+
+This creates:
+ /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site/dist
+
+----------------------------------------
+STEP 2: ZIP THE DIST CONTENTS
+----------------------------------------
+
+Recommended:
+zip the contents inside dist so they extract directly into public_html
+
+cd /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site/dist
+zip -r ../dist-contents.zip .
+
+This creates:
+ /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site/dist-contents.zip
+
+----------------------------------------
+STEP 3: OPEN HOSTING PORTAL / CPANEL
+----------------------------------------
+
+Log in to cPanel / hosting portal
+
+Go to:
+ File Manager
+
+Open:
+ public_html
+
+----------------------------------------
+STEP 4: UPLOAD ZIP FILE
+----------------------------------------
+
+Inside public_html:
+- click Upload
+- upload:
+  dist-contents.zip
+
+After upload completes:
+- go back to File Manager
+- stay inside public_html
+
+----------------------------------------
+STEP 5: EXTRACT ZIP
+----------------------------------------
+
+Inside public_html:
+- select dist-contents.zip
+- click Extract
+
+After extraction, public_html should contain:
+- index.html
+- assets/
+
+Important:
+There should NOT be a nested dist folder unless intentionally desired
+
+Correct:
+ public_html/index.html
+ public_html/assets/...
+
+Wrong:
+ public_html/dist/index.html
+ public_html/dist/assets/...
+
+----------------------------------------
+STEP 6: CLEAN UP
+----------------------------------------
+
+Optional:
+- delete dist-contents.zip after extraction
+
+----------------------------------------
+STEP 7: VERIFY WEBSITE
+----------------------------------------
+
+Open the public domain in browser
+
+Expected:
+- homepage loads
+- styles load
+- JS loads
+- images referenced in frontend build load
+
+----------------------------------------
+IF SITE DOES NOT LOAD CORRECTLY
+----------------------------------------
+
+1. Check extracted structure
+Make sure files are directly inside public_html, not inside public_html/dist
+
+2. If extracted into dist folder by mistake
+Move:
+ public_html/dist/index.html  -> public_html/index.html
+ public_html/dist/assets      -> public_html/assets
+
+3. Refresh browser
+
+----------------------------------------
+STATIC DEPLOYMENT LIMITATION
+----------------------------------------
+
+Uploading dist to public_html deploys only the frontend.
+
+These backend features will NOT work in static-only hosting unless backend is deployed separately:
+- likes
+- comments
+- admin page actions
+- SQLite database APIs
+- server.cjs endpoints
+
+Frontend-only hosting supports:
+- page layout
+- menus
+- category display
+- static assets
+
+----------------------------------------
+QUICK COMMANDS
+----------------------------------------
+
+Build:
+cd /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site
+npm run build
+
+Zip dist contents:
+cd /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site/dist
+zip -r ../dist-contents.zip .
+
+Resulting zip:
+ /Users/nandamac/myprojects/NewBackupAPR25/rekafinearts-site/dist-contents.zip
