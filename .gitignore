@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Watermark script keeps originals here — don't commit (21 MB of dupes)
+public/images/.watermark-backup/
+
 # Local env (FTP / email creds — never commit)
 .env
 .env.local

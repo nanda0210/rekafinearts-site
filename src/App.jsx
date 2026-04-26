@@ -284,14 +284,22 @@ function Layout({ children }) {
       {!hideHeader && (
         <header className="sticky top-0 z-50 border-b border-stone-200 bg-white/95 backdrop-blur">
           <nav className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-4 lg:px-10">
-            <Link
-              to="/"
-              className="rounded-full px-3 py-1 text-stone-600 transition hover:bg-stone-100"
-            >
-              Home
+            <Link to="/" className="flex items-baseline gap-2 group" aria-label="Reka Fine Arts — home">
+              <span className="text-xl font-bold tracking-tight text-stone-800 group-hover:text-rose-700 transition">
+                Reka <span className="text-rose-700">Fine Arts</span>
+              </span>
+              <span className="hidden sm:inline text-xs text-stone-500 italic">
+                Stylish art creation from Sasireka
+              </span>
             </Link>
 
             <div className="flex flex-wrap gap-2 text-sm font-medium">
+              <Link
+                to="/"
+                className="rounded-full px-3 py-1 text-stone-600 transition hover:bg-stone-100"
+              >
+                Home
+              </Link>
               <Link
                 to="/gallery"
                 className="rounded-full px-3 py-1 text-stone-600 transition hover:bg-stone-100"

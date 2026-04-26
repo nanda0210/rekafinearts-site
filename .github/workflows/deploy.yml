@@ -48,11 +48,10 @@ jobs:
           # The deploy@rekagallery.vip account is chrooted to public_html,
           # so its FTP root IS public_html — use "./" not "/public_html/".
           server-dir: ./
-          # Don't wipe images on the host — they live in public_html/images
-          # and aren't rebuilt by Vite. Anything else under server-dir is
-          # diffed against the build output and replaced as needed.
+          # Vite copies public/images/* into dist/images/* at build time,
+          # so the build output IS the source of truth. FTP-Deploy-Action
+          # diffs by file hash, so unchanged images aren't re-uploaded.
           exclude: |
             **/.git*
             **/.git*/**
             **/node_modules/**
-            **/images/**
