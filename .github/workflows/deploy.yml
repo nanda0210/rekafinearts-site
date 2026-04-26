@@ -1,0 +1,56 @@
+name: Deploy frontend to cPanel
+
+on:
+  push:
+    branches: [main]
+    paths:
+      # Skip deploy for changes that don't affect the built frontend
+      - "src/**"
+      - "public/**"
+      - "index.html"
+      - "package.json"
+      - "package-lock.json"
+      - "vite.config.*"
+      - ".env.production"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch:   # also allow manual trigger from the Actions tab
+
+concurrency:
+  group: deploy-cpanel
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (Vite picks up .env.production)
+        run: npm run build
+
+      - name: FTP deploy dist/ → public_html
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: /${{ secrets.FTP_REMOTE_DIR }}/
+          # Don't wipe images on the host — they live in public_html/images
+          # and aren't rebuilt by Vite. Anything else under server-dir is
+          # diffed against the build output and replaced as needed.
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/images/**
