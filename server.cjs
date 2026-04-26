@@ -1,9 +1,9 @@
 const { pathToFileURL } = require("url");
 const express = require("express");
 const cors = require("cors");
-const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
 const nodemailer = require("nodemailer");
+const makeDb = require("./db.cjs");
 
 const app = express();
 const PORT = parseInt(process.env.PORT || "3002", 10);
@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "public", "images")));
 
-const db = new sqlite3.Database(dbPath);
+const db = makeDb(dbPath);
 
 // Email Configuration
 // Configure with your Gmail credentials:

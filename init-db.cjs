@@ -1,8 +1,8 @@
-const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
+const makeDb = require("./db.cjs");
 
 const dbPath = path.join(__dirname, "rekafinearts.db");
-const db = new sqlite3.Database(dbPath);
+const db = makeDb(dbPath);
 
 db.serialize(() => {
   db.run(`
