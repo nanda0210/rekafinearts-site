@@ -148,8 +148,8 @@ function ImageCard({
             </button>
             <button
               onClick={() => onLike(image)}
-              className="flex items-center gap-1 rounded-full bg-rose-700 px-3 py-1 text-xs font-medium text-white shadow-md hover:bg-rose-800 focus:outline-none"
-              title="Like"
+              className="flex items-center gap-1 rounded-full bg-green-600 px-3 py-1 text-xs font-medium text-white shadow-md hover:bg-green-700 focus:outline-none"
+              aria-label="Like this artwork"
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" className="w-4 h-4">
                 <path d="M3.172 5.172a4 4 0 0 1 5.656 0L10 6.343l1.172-1.171a4 4 0 1 1 5.656 5.656l-6.364 6.364a.75.75 0 0 1-1.06 0L3.172 10.83a4 4 0 0 1 0-5.656z" />
@@ -382,28 +382,29 @@ export default function App() {
     }));
   };
 
-  const galleryImageDetails = {
-    "G001.jpg": {
-      title: "Featured Artwork 1",
-      description:
-        "Add your artwork title, medium, or short description here.",
-    },
-    "G001.JPG": {
-      title: "Featured Artwork 1",
-      description:
-        "Add your artwork title, medium, or short description here.",
-    },
-    "G002.jpg": {
-      title: "Featured Artwork 2",
-      description:
-        "Add your artwork title, medium, or short description here.",
-    },
-    "G002.JPG": {
-      title: "Featured Artwork 2",
-      description:
-        "Add your artwork title, medium, or short description here.",
-    },
+  // Five-word descriptions tuned to each painting (gallery only).
+  const galleryDescriptions = {
+    G001: "Crimson autumn path after rain",
+    G002: "Snowy peaks above frozen lake",
+    G003: "Forest stream cascading through autumn",
+    G004: "Yorkshire terrier in pink portrait",
+    G005: "Vine-draped archway in lush garden",
+    G006: "Golden autumn avenue stretching far",
+    G007: "Stylized Ganesha in golden grace",
+    G008: "Peacock among cherry blossom branches",
+    G009: "Radiant butterfly on pink burst",
+    G010: "Serene Buddha amid pink lotuses",
+    G011: "Radha and Krishna eternal love",
   };
+  const galleryImageDetails = Object.fromEntries(
+    Object.entries(galleryDescriptions).flatMap(([key, desc]) => {
+      const num = key.replace("G", "");
+      return [
+        [`${key}.jpg`, { title: `Artwork ${num}`, description: desc }],
+        [`${key}.JPG`, { title: `Artwork ${num}`, description: desc }],
+      ];
+    })
+  );
 
   const pages = {
     gallery: {
