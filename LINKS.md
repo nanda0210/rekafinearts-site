@@ -8,7 +8,7 @@
 | Admin page | https://rekagallery.vip/admin |
 | Contact form | https://rekagallery.vip/contact |
 | Deploy manager (local-only notice on prod) | https://rekagallery.vip/deploy |
-| Backend API (Render) | _set after Render deploy completes; e.g. `https://rekafinearts-site.onrender.com`_ |
+| Backend API (Render) | https://rekafinearts-site.onrender.com |
 
 ## Local development
 

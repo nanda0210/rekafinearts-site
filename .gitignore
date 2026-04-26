@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Local env (FTP / email creds — never commit)
+.env
+.env.local
+# .env.production IS committed — non-secret backend URL only
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
