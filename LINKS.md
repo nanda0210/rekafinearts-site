@@ -1,5 +1,22 @@
 # Reka Fine Arts — Links Reference
 
+## ⭐ Quick access (the 5 you need)
+
+| # | What | URL |
+|---|---|---|
+| 1 | **Live site** | https://rekagallery.vip |
+| 2 | **Local site** | http://localhost:5173 |
+| 3 | **Deploy actions** | https://github.com/nanda0210/rekafinearts-site/actions |
+| 4 | **Admin (live)** | https://rekagallery.vip/admin |
+| 4 | **Admin (local)** | http://localhost:5173/admin |
+| 5 | **cPanel login** | https://fiber23-r.iaasdns.com:2083/ |
+
+**cPanel credentials**
+- Username: `rekagallery`
+- Password: *(stored only in `.env` locally — never commit)*
+
+---
+
 ## Live (production)
 
 | What | URL |
