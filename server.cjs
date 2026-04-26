@@ -6,7 +6,8 @@ const path = require("path");
 const nodemailer = require("nodemailer");
 
 const app = express();
-const PORT = 3002;
+const PORT = parseInt(process.env.PORT || "3002", 10);
+const HOST = process.env.PORT ? "0.0.0.0" : "localhost";
 const dbPath = path.join(__dirname, "rekafinearts.db");
 
 app.use(cors());
@@ -395,6 +396,6 @@ app.post("/api/deploy/upload", requireLocalOnly, async (req, res) => {
 // END_DEPLOY_MANAGER_LOCAL
 
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+app.listen(PORT, HOST, () => {
+  console.log(`Server running on http://${HOST}:${PORT}`);
 });
