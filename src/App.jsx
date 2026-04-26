@@ -4,8 +4,15 @@ import "./index.css";
 import { imageData } from "./imageData";
 import Admin from "./Admin";
 import Contact from "./Contact";
+import DeployManager from "./DeployManager";
 
-const API_BASE = "http://localhost:3002";
+// Auto-switch: localhost in dev, configured production URL on the live site.
+// Set VITE_API_BASE_URL at build time (or in .env) once the backend is hosted.
+const API_BASE = (() => {
+  const h = typeof window !== "undefined" ? window.location.hostname : "";
+  if (h === "localhost" || h === "127.0.0.1" || h === "") return "http://localhost:3002";
+  return import.meta.env.VITE_API_BASE_URL || "";
+})();
 
 function parseImagePath(image) {
   const parts = image.split("/").filter(Boolean);
@@ -56,14 +63,49 @@ function ImageCard({
       "Add your artwork title, medium, or short description here.",
   };
 
-  // ...existing code...
   const [commentInput, setCommentInput] = useState("");
   const [comments, setComments] = useState([]);
   const [showComments, setShowComments] = useState(false);
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [commentStatus, setCommentStatus] = useState("");
 
-  // ...existing code for loading comments, handleAddComment, etc...
+  const { category, filename } = parseImagePath(image);
+
+  // Load approved comments when the user opens the comments panel.
+  useEffect(() => {
+    if (!showComments || !category || !filename || !API_BASE) return;
+    let cancelled = false;
+    fetch(`${API_BASE}/api/comments?category=${encodeURIComponent(category)}&filename=${encodeURIComponent(filename)}`)
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data) => { if (!cancelled) setComments(Array.isArray(data) ? data : []); })
+      .catch(() => { if (!cancelled) setComments([]); });
+    return () => { cancelled = true; };
+  }, [showComments, category, filename]);
+
+  async function handleAddComment() {
+    const text = (commentInput || "").trim();
+    if (!text) { setCommentStatus("Comment cannot be empty"); return; }
+    if (text.length > 200) { setCommentStatus("Max 200 characters"); return; }
+    if (!API_BASE) { setCommentStatus("Comments backend not configured for this site"); return; }
+    setCommentStatus("Submitting…");
+    try {
+      const res = await fetch(`${API_BASE}/api/comments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ category, filename, comment_text: text }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        setCommentStatus(err.error || `Failed (HTTP ${res.status})`);
+        return;
+      }
+      setCommentInput("");
+      setCommentStatus("Comment submitted for approval");
+      setTimeout(() => setCommentStatus(""), 3000);
+    } catch {
+      setCommentStatus("Network error — backend may be offline");
+    }
+  }
 
   return (
     <div className="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-stone-200">
@@ -235,7 +277,7 @@ function CategoryPage({
 
 function Layout({ children }) {
   const location = useLocation();
-  const hideHeader = location.pathname === "/admin";
+  const hideHeader = location.pathname === "/admin" || location.pathname === "/deploy";
 
   return (
     <div className="min-h-screen bg-[#faf7f2] text-stone-800">
@@ -305,101 +347,29 @@ function Layout({ children }) {
 
 function HomePage() {
   const heroImage = "/images/hero-open/H001.JPG";
-  return null; // TODO: Restore homepage content if needed, but remove all duplicate/stray JSX
-
-              <div className="grid gap-4 md:grid-cols-2">
-                <div className="flex h-full flex-col rounded-3xl bg-white p-5 shadow-sm ring-1 ring-stone-200">
-                  <h3 className="text-xl font-semibold text-stone-800">
-                    Creative practice
-                  </h3>
-                  <p className="mt-4 text-sm leading-8 text-stone-600">
-                    My work is rooted in a love of painting, mindful composition, and gallery-style presentation. I share art that feels modern, grounded, and thoughtfully designed.
-                  </p>
-                </div>
-
-                <div className="flex h-full flex-col rounded-3xl bg-white p-5 shadow-sm ring-1 ring-stone-200">
-                  <h3 className="text-xl font-semibold text-stone-800">
-                    Vision & style
-                  </h3>
-                  <p className="mt-4 text-sm leading-8 text-stone-600">
-                    To create a welcoming art destination where each piece feels polished, expressive, and made to evoke joy in your home or gallery wall.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <div className="overflow-hidden rounded-3xl bg-stone-100 shadow-lg ring-1 ring-stone-200">
-                <img
-                  src={heroImage}
-                  alt="Opening artwork"
-                  className="h-48 w-full object-cover md:h-[20rem]"
-                  loading="lazy"
-                />
-              </div>
-              <div className="overflow-hidden rounded-3xl bg-stone-100 shadow-lg ring-1 ring-stone-200">
-                <img
-                  src="/images/hero-open/H002.jpg"
-                  alt="Second opening artwork"
-                  className="h-48 w-full object-cover md:h-[20rem]"
-                  loading="lazy"
-                />
-              </div>
-            </div>
+    return (
+      <div>
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="flex h-full flex-col rounded-3xl bg-white p-5 shadow-sm ring-1 ring-stone-200">
+            <h3 className="text-xl font-semibold text-stone-800">
+              Creative practice
+            </h3>
+            <p className="mt-4 text-sm leading-8 text-stone-600">
+              My work is rooted in a love of painting, mindful composition, and gallery-style presentation. I share art that feels modern, grounded, and thoughtfully designed.
+            </p>
           </div>
-        </section>
 
-        <section className="border-t border-stone-200 bg-stone-50 py-8">
-          <div className="mx-auto max-w-7xl px-6 lg:px-10">
-            <h2 className="text-3xl font-semibold text-stone-900 text-center">What Clients Say</h2>
-            <div className="mt-6 grid gap-4 md:grid-cols-3">
-              <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-stone-200">
-                <p className="text-sm text-stone-600">"Beautiful paintings that capture emotion perfectly."</p>
-                <p className="mt-4 text-sm font-medium text-stone-800">- Sarah Johnson</p>
-              </div>
-              <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-stone-200">
-                <p className="text-sm text-stone-600">"Sasireka's art brings warmth and inspiration to our home."</p>
-                <p className="mt-4 text-sm font-medium text-stone-800">- Michael Chen</p>
-              </div>
-              <div className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-stone-200">
-                <p className="text-sm text-stone-600">"Exceptional quality and unique storytelling in every piece."</p>
-                <p className="mt-4 text-sm font-medium text-stone-800">- Emily Davis</p>
-              </div>
-            </div>
+          <div className="flex h-full flex-col rounded-3xl bg-white p-5 shadow-sm ring-1 ring-stone-200">
+            <h3 className="text-xl font-semibold text-stone-800">
+              Vision & style
+            </h3>
+            <p className="mt-4 text-sm leading-8 text-stone-600">
+              To create a welcoming art destination where each piece feels polished, expressive, and made to evoke joy in your home or gallery wall.
+            </p>
           </div>
-        </section>
-      </main>
-
-      <footer className="bg-stone-900 text-white py-6">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <div className="grid gap-4 md:grid-cols-3">
-            <div>
-              <h3 className="text-lg font-semibold">Reka Fine Arts</h3>
-              <p className="mt-2 text-sm text-stone-300">Original paintings by Sasireka</p>
-            </div>
-            <div>
-              <h4 className="text-sm font-medium">Quick Links</h4>
-              <ul className="mt-2 space-y-1 text-sm text-stone-300">
-                <li><Link to="/gallery" className="hover:text-white">Gallery</Link></li>
-                <li><Link to="/advanced" className="hover:text-white">Collections</Link></li>
-                <li><Link to="/admin" className="hover:text-white">Admin</Link></li>
-                <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-sm font-medium">Contact & Newsletter</h4>
-              <p className="mt-2 text-sm text-stone-300">Email: nanda73@yahoo.com</p>
-              <form className="mt-4">
-                <input type="email" placeholder="Your email" className="w-full rounded px-3 py-2 text-stone-900 text-sm" />
-                <button type="submit" className="mt-2 w-full rounded bg-rose-700 px-3 py-2 text-sm font-medium text-white hover:opacity-90">Subscribe</button>
-              </form>
-            </div>
-          </div>
-          <p className="mt-8 border-t border-stone-700 pt-4 text-center text-sm text-stone-400">© 2026 Reka Fine Arts. All rights reserved.</p>
         </div>
-      </footer>
-    </>
-  );
+      </div>
+    );
 }
 
 export default function App() {
@@ -553,6 +523,7 @@ export default function App() {
             }
           />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/deploy" element={<DeployManager />} />
           <Route path="/admin" element={<Admin />} />
         </Routes>
       </Layout>

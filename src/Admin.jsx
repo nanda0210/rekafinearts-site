@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 
-const API_BASE = "http://localhost:3002";
+const API_BASE = (() => {
+  const h = typeof window !== "undefined" ? window.location.hostname : "";
+  if (h === "localhost" || h === "127.0.0.1" || h === "") return "http://localhost:3002";
+  return import.meta.env.VITE_API_BASE_URL || "";
+})();
 
 export default function Admin() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
