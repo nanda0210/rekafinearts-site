@@ -45,7 +45,9 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
-          server-dir: /${{ secrets.FTP_REMOTE_DIR }}/
+          # The deploy@rekagallery.vip account is chrooted to public_html,
+          # so its FTP root IS public_html — use "./" not "/public_html/".
+          server-dir: ./
           # Don't wipe images on the host — they live in public_html/images
           # and aren't rebuilt by Vite. Anything else under server-dir is
           # diffed against the build output and replaced as needed.
