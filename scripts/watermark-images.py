@@ -12,10 +12,17 @@ IMAGES_ROOT = PROJECT / "public" / "images"
 BACKUP_ROOT = IMAGES_ROOT / ".watermark-backup"
 WATERMARK_TEXT = "Reka Fine Arts"
 
+# Folders whose images are intentionally NOT watermarked (e.g., homepage hero).
+SKIP_DIRS = {"hero-open"}
+
 VALID_EXTS = {".jpg", ".jpeg", ".png", ".webp"}
 
 def is_image(path: Path) -> bool:
     return path.suffix.lower() in VALID_EXTS
+
+def in_skip_dir(path: Path) -> bool:
+    rel_parts = path.relative_to(IMAGES_ROOT).parts
+    return any(part in SKIP_DIRS for part in rel_parts)
 
 def find_images():
     if not IMAGES_ROOT.exists():
@@ -25,6 +32,8 @@ def find_images():
         if not p.is_file():
             continue
         if BACKUP_ROOT in p.parents:
+            continue
+        if in_skip_dir(p):
             continue
         if is_image(p):
             files.append(p)
