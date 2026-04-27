@@ -53,7 +53,7 @@ jobs:
           # bypassing any stale .ftp-deploy-sync-state.json from the old
           # master FTP account era. Once watermarked images are uploaded,
           # this name stays — future runs are then incremental again.
-          state-name: .ftp-deploy-state-v2.json
+          state-name: .ftp-deploy-state-v3.json
           local-dir: ./dist/
           # The deploy@rekagallery.vip account is chrooted to public_html,
           # so its FTP root IS public_html — use "./" not "/public_html/".
