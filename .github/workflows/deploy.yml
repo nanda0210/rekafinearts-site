@@ -41,7 +41,12 @@ jobs:
       - name: FTP deploy dist/ → public_html
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_HOST }}
+          # Hostname is public DNS info — hardcoded here to avoid the
+          # GitHub secret-masking confusion when the secret value
+          # gets corrupted/cleared. The credentials below stay secret.
+          server: fiber23-r.iaasdns.com
+          port: 21
+          protocol: ftp
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./dist/
