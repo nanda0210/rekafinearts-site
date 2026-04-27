@@ -1,0 +1,50 @@
+# ─── Cache strategy ────────────────────────────────────────────────
+# index.html / *.html: never cache (so deploys are instant).
+# /assets/*.js, *.css: cache forever (Vite includes content hashes
+#   in the filename, so any change ships under a new URL).
+# /images/*: short cache (content can change without a name change).
+
+<IfModule LiteSpeed>
+  CacheLookup on
+  RewriteEngine On
+  # Never cache HTML responses at the LiteSpeed layer.
+  <FilesMatch "\.(html|htm)$">
+    CacheDisable public
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_headers.c>
+  # HTML — no cache
+  <FilesMatch "\.(html|htm)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+
+  # Hashed Vite assets — immutable, 1 year
+  <FilesMatch "^index-[A-Za-z0-9]+\.(js|css)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Images — 1 day; long enough to be useful, short enough to flush
+  <FilesMatch "\.(jpg|jpeg|png|webp|gif|svg|ico)$">
+    Header set Cache-Control "public, max-age=86400, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# ─── SPA routing (let React Router handle deep links) ──────────────
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Don't rewrite real files (assets, images, .php, etc.)
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Don't rewrite the API path (none currently, but safe guard)
+  RewriteCond %{REQUEST_URI} !^/api/
+
+  # Everything else → index.html (React Router takes it from there)
+  RewriteRule . /index.html [L]
+</IfModule>
