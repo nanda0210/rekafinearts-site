@@ -54,11 +54,6 @@ jobs:
           # master FTP account era. Once watermarked images are uploaded,
           # this name stays — future runs are then incremental again.
           state-name: .ftp-deploy-state-v2.json
-          # ONE-TIME clean-slate to wipe the action's confused state and
-          # the stale (un-watermarked) images on the host. dist/ contains
-          # everything (index.html, assets/, images/, contact.php), so
-          # nothing important is lost. Remove this flag after one green run.
-          dangerous-clean-slate: true
           local-dir: ./dist/
           # The deploy@rekagallery.vip account is chrooted to public_html,
           # so its FTP root IS public_html — use "./" not "/public_html/".

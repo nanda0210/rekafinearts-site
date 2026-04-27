@@ -354,30 +354,50 @@ function Layout({ children }) {
 }
 
 function HomePage() {
-  const heroImage = "/images/hero-open/H001.JPG";
-    return (
-      <div>
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="flex h-full flex-col rounded-3xl bg-white p-5 shadow-sm ring-1 ring-stone-200">
-            <h3 className="text-xl font-semibold text-stone-800">
-              Creative practice
-            </h3>
-            <p className="mt-4 text-sm leading-8 text-stone-600">
-              My work is rooted in a love of painting, mindful composition, and gallery-style presentation. I share art that feels modern, grounded, and thoughtfully designed.
-            </p>
-          </div>
-
-          <div className="flex h-full flex-col rounded-3xl bg-white p-5 shadow-sm ring-1 ring-stone-200">
-            <h3 className="text-xl font-semibold text-stone-800">
-              Vision & style
-            </h3>
-            <p className="mt-4 text-sm leading-8 text-stone-600">
-              To create a welcoming art destination where each piece feels polished, expressive, and made to evoke joy in your home or gallery wall.
-            </p>
-          </div>
+  return (
+    <div>
+      {/* Hero strip — 2 featured images, side-by-side on desktop, stacked on mobile */}
+      <div className="mb-6 grid gap-4 md:grid-cols-2">
+        <div className="overflow-hidden rounded-3xl shadow-sm ring-1 ring-stone-200">
+          <img
+            src="/images/hero-open/H001.JPG"
+            alt="Reka Fine Arts — featured artwork"
+            className="h-64 w-full object-cover transition duration-300 hover:scale-[1.02] md:h-96"
+            loading="eager"
+          />
+        </div>
+        <div className="overflow-hidden rounded-3xl shadow-sm ring-1 ring-stone-200">
+          <img
+            src="/images/hero-open/H002.jpg"
+            alt="Reka Fine Arts — featured artwork"
+            className="h-64 w-full object-cover transition duration-300 hover:scale-[1.02] md:h-96"
+            loading="eager"
+          />
         </div>
       </div>
-    );
+
+      {/* Two text cards */}
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="flex h-full flex-col rounded-3xl bg-white p-5 shadow-sm ring-1 ring-stone-200">
+          <h3 className="text-xl font-semibold text-stone-800">
+            Creative practice
+          </h3>
+          <p className="mt-4 text-sm leading-8 text-stone-600">
+            My work is rooted in a love of painting, mindful composition, and gallery-style presentation. I share art that feels modern, grounded, and thoughtfully designed.
+          </p>
+        </div>
+
+        <div className="flex h-full flex-col rounded-3xl bg-white p-5 shadow-sm ring-1 ring-stone-200">
+          <h3 className="text-xl font-semibold text-stone-800">
+            Vision & style
+          </h3>
+          <p className="mt-4 text-sm leading-8 text-stone-600">
+            To create a welcoming art destination where each piece feels polished, expressive, and made to evoke joy in your home or gallery wall.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function App() {
