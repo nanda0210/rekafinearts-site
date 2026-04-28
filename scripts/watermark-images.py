@@ -47,39 +47,106 @@ def ensure_backup(src: Path) -> Path:
       backup.write_bytes(src.read_bytes())
     return backup
 
+def _load_font(size: int):
+    for path in [
+        "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
+        "/System/Library/Fonts/Supplemental/Arial.ttf",
+        "/Library/Fonts/Arial.ttf",
+    ]:
+        try:
+            return ImageFont.truetype(path, size)
+        except Exception:
+            continue
+    return ImageFont.load_default()
+
+def _make_tiled_diagonal_layer(width: int, height: int, text: str, angle_deg: int, alpha: int):
+    """Tile `text` across the image at a diagonal angle so it covers everything.
+    Anyone cropping or right-clicking sees the brand text running across whatever
+    region they grab — classic anti-theft pattern."""
+    # Font scaled larger so it survives downscaling in browsers/thumbnails.
+    longest = max(width, height)
+    font_size = max(32, longest // 12)
+    font = _load_font(font_size)
+
+    # Measure one tile.
+    tmp = Image.new("RGBA", (1, 1), (0, 0, 0, 0))
+    bbox = ImageDraw.Draw(tmp).textbbox((0, 0), text, font=font)
+    tw = bbox[2] - bbox[0]
+    th = bbox[3] - bbox[1]
+
+    # Spacing between repetitions.
+    gap_x = int(tw * 0.4)
+    gap_y = int(th * 2.5)
+    cell_w = tw + gap_x
+    cell_h = th + gap_y
+
+    # Big oversized canvas so rotation has room without clipping.
+    over = int(((width**2 + height**2) ** 0.5) * 1.3)
+    tile = Image.new("RGBA", (over, over), (0, 0, 0, 0))
+    tile_draw = ImageDraw.Draw(tile)
+
+    # Use a thick white halo around dark text so it pops on every part of the
+    # artwork — bright sky, dark forest, mid-tone background — without ever
+    # disappearing.
+    text_color = (20, 20, 20, alpha)
+    halo_color = (255, 255, 255, min(255, alpha + 60))
+    halo = max(2, font_size // 18)
+
+    rows = over // cell_h + 2
+    cols = over // cell_w + 2
+    for row in range(rows):
+        x_offset = (row % 2) * (cell_w // 2)
+        for col in range(cols):
+            x = col * cell_w + x_offset
+            y = row * cell_h
+            # halo (thicker, ringing the text)
+            for dx in range(-halo, halo + 1):
+                for dy in range(-halo, halo + 1):
+                    if dx == 0 and dy == 0: continue
+                    tile_draw.text((x + dx, y + dy), text, font=font, fill=halo_color)
+            tile_draw.text((x, y), text, font=font, fill=text_color)
+
+    rotated = tile.rotate(angle_deg, resample=Image.BICUBIC)
+    canvas = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+    cx = (rotated.width  - width)  // 2
+    cy = (rotated.height - height) // 2
+    cropped = rotated.crop((cx, cy, cx + width, cy + height))
+    canvas.paste(cropped, (0, 0), cropped)
+    return canvas
+
 def add_watermark(src: Path, dst: Path):
     with Image.open(src).convert("RGBA") as base:
-        overlay = Image.new("RGBA", base.size, (255, 255, 255, 0))
-        draw = ImageDraw.Draw(overlay)
-
         width, height = base.size
-        font_size = max(20, width // 28)
+        overlay = Image.new("RGBA", base.size, (255, 255, 255, 0))
 
-        try:
-            font = ImageFont.truetype("/System/Library/Fonts/Supplemental/Arial.ttf", font_size)
-        except Exception:
-            font = ImageFont.load_default()
+        # ── Tiled diagonal "Reka Fine Arts" pattern (light, faded) ──
+        # Repeats the brand text across the entire image at -30°. Anyone who
+        # right-clicks/screenshots/crops gets a piece with the watermark in it.
+        # Alpha kept moderate so the original art still reads clearly.
+        FAINT_ALPHA = 110  # ~43% — visible across the image, art still readable
+        tiled = _make_tiled_diagonal_layer(width, height, WATERMARK_TEXT, -30, FAINT_ALPHA)
+        overlay = Image.alpha_composite(overlay, tiled)
 
-        bbox = draw.textbbox((0, 0), WATERMARK_TEXT, font=font)
-        text_w = bbox[2] - bbox[0]
-        text_h = bbox[3] - bbox[1]
-
-        x = width - text_w - max(18, width // 50)
-        y = height - text_h - max(18, height // 50)
-
-        pad_x = max(12, width // 120)
-        pad_y = max(8, height // 160)
-
+        # ── Corner brand pill (kept; small, more opaque, the "official mark") ──
+        draw = ImageDraw.Draw(overlay)
+        corner_size = max(20, width // 28)
+        corner_font = _load_font(corner_size)
+        cb = draw.textbbox((0, 0), WATERMARK_TEXT, font=corner_font)
+        ctw = cb[2] - cb[0]
+        cth = cb[3] - cb[1]
+        cx = width  - ctw - max(18, width  // 50)
+        cy = height - cth - max(18, height // 50)
+        cpx = max(12, width  // 120)
+        cpy = max(8,  height // 160)
         draw.rounded_rectangle(
-            (x - pad_x, y - pad_y, x + text_w + pad_x, y + text_h + pad_y),
+            (cx - cpx, cy - cpy, cx + ctw + cpx, cy + cth + cpy),
             radius=12,
-            fill=(0, 0, 0, 85),
+            fill=(0, 0, 0, 90),
         )
-        draw.text((x, y), WATERMARK_TEXT, font=font, fill=(255, 255, 255, 155))
+        draw.text((cx, cy), WATERMARK_TEXT, font=corner_font, fill=(255, 255, 255, 170))
 
         merged = Image.alpha_composite(base, overlay)
         dst.parent.mkdir(parents=True, exist_ok=True)
-
         if dst.suffix.lower() in {".jpg", ".jpeg"}:
             merged = merged.convert("RGB")
             merged.save(dst, quality=92, optimize=True)
